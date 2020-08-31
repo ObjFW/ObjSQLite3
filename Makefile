@@ -12,7 +12,7 @@ include buildsys.mk
 include extra.mk
 
 install-extra:
-	i=ObjSQLite.oc; \
+	i=ObjSQLite3.oc; \
 	packagesdir="${DESTDIR}$$(${OBJFW_CONFIG} --packages-dir)"; \
 	${INSTALL_STATUS}; \
 	if ${MKDIR_P} $$packagesdir && ${INSTALL} -m 644 $$i $$packagesdir/$$i; then \
@@ -22,7 +22,7 @@ install-extra:
 	fi
 
 uninstall-extra:
-	i=ObjOpenSQLite.oc; \
+	i=ObjSQLite3.oc; \
 	packagesdir="${DESTDIR}$$(${OBJFW_CONFIG} --packages-dir)"; \
 	if test -f $$packagesdir/$$i; then \
 		if rm -f $$packagesdir/$$i; then \
