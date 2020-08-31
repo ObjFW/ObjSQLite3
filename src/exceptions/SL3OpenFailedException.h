@@ -22,46 +22,27 @@
 
 #import "SL3Exception.h"
 
-@implementation SL3Exception
-@synthesize connection = _connection, errorCode = _errorCode;
+OF_ASSUME_NONNULL_BEGIN
 
-+ (instancetype)exception
+@interface SL3OpenFailedException: SL3Exception
 {
-	OF_UNRECOGNIZED_SELECTOR
+	OFString *_path;
+	int _flags;
 }
 
-+ (instancetype)exceptionWithConnection: (SL3Connection *)connection
-			      errorCode: (int)errorCode
-{
-	return [[[self alloc] initWithConnection: connection
-				       errorCode: errorCode] autorelease];
-}
+@property (readonly, nonatomic) OFString *path;
+@property (readonly, nonatomic) int flags;
 
-- (instancetype)init
-{
-	OF_INVALID_INIT_METHOD
-}
-
-- (instancetype)initWithConnection: (SL3Connection *)connection
-			 errorCode: (int)errorCode
-{
-	self = [super init];
-
-	_connection = [connection retain];
-	_errorCode = errorCode;
-
-	return self;
-}
-
-- (void)dealloc
-{
-	[_connection release];
-
-	[super dealloc];
-}
-
-- (OFString *)description
-{
-	return [OFString stringWithUTF8String: sqlite3_errstr(_errorCode)];
-}
++ (instancetype)exceptionWithConnection: (nullable SL3Connection *)connection
+			      errorCode: (int)errorCode OF_UNAVAILABLE;
++ (instancetype)exceptionWithPath: (OFString *)path
+			    flags: (int)flags
+			errorCode: (int)errorCode;
+- (instancetype)initWithConnection: (nullable SL3Connection *)connection
+			 errorCode: (int)errorCode OF_UNAVAILABLE;
+- (instancetype)initWithPath: (OFString *)path
+		       flags: (int)flags
+		   errorCode: (int)errorCode OF_DESIGNATED_INITIALIZER;
 @end
+
+OF_ASSUME_NONNULL_END

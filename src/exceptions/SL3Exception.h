@@ -35,8 +35,10 @@ OF_ASSUME_NONNULL_BEGIN
 @property OF_NULLABLE_PROPERTY (readonly, nonatomic) SL3Connection *connection;
 @property (readonly, nonatomic) int errorCode;
 
++ (instancetype)exception OF_UNAVAILABLE;
 + (instancetype)exceptionWithConnection: (nullable SL3Connection *)connection
 			      errorCode: (int)errorCode;
+- (instancetype)init OF_UNAVAILABLE;
 - (instancetype)initWithConnection: (nullable SL3Connection *)connection
 			 errorCode: (int)errorCode OF_DESIGNATED_INITIALIZER;
 @end

@@ -22,7 +22,7 @@
 
 #import "SL3Connection.h"
 
-#import "SL3Exception.h"
+#import "SL3OpenFailedException.h"
 
 @implementation SL3Connection
 + (instancetype)connectionWithPath: (OFString *)path
@@ -42,10 +42,10 @@
 		    flags, NULL);
 
 		if (errorCode != SQLITE_OK)
-			/* TODO: Use an SL3Exception subclass. */
-			@throw [SL3Exception
-			    exceptionWithConnection: nil
-					  errorCode: errorCode];
+			@throw [SL3OpenFailedException
+			    exceptionWithPath: path
+					flags: flags
+				    errorCode: errorCode];
 	} @catch (id e) {
 		[self release];
 		@throw e;

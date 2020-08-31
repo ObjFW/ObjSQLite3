@@ -20,48 +20,47 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SL3Exception.h"
+#import "SL3OpenFailedException.h"
 
-@implementation SL3Exception
-@synthesize connection = _connection, errorCode = _errorCode;
+@implementation SL3OpenFailedException
+@synthesize path = _Path, flags = _flags;
 
-+ (instancetype)exception
++ (instancetype)exceptionWithConnection: (SL3Connection *)connection
+			      errorCode: (int)errorCode OF_UNAVAILABLE
 {
 	OF_UNRECOGNIZED_SELECTOR
 }
 
-+ (instancetype)exceptionWithConnection: (SL3Connection *)connection
-			      errorCode: (int)errorCode
++ (instancetype)exceptionWithPath: (OFString *)path
+			    flags: (int)flags
+			errorCode: (int)errorCode
 {
-	return [[[self alloc] initWithConnection: connection
-				       errorCode: errorCode] autorelease];
+	return [[[self alloc] initWithPath: path
+				     flags: flags
+				 errorCode: errorCode] autorelease];
 }
 
-- (instancetype)init
+- (instancetype)initWithConnection: (SL3Connection *)connection
+			 errorCode: (int)errorCode OF_UNAVAILABLE
 {
 	OF_INVALID_INIT_METHOD
 }
 
-- (instancetype)initWithConnection: (SL3Connection *)connection
-			 errorCode: (int)errorCode
+- (instancetype)initWithPath: (OFString *)path
+		       flags: (int)flags
+		   errorCode: (int)errorCode
 {
-	self = [super init];
+	self = [super initWithConnection: nil
+			       errorCode: errorCode];
 
-	_connection = [connection retain];
-	_errorCode = errorCode;
+	@try {
+		_path = [path copy];
+		_flags = flags;
+	} @catch (id e) {
+		[self release];
+		@throw e;
+	}
 
 	return self;
-}
-
-- (void)dealloc
-{
-	[_connection release];
-
-	[super dealloc];
-}
-
-- (OFString *)description
-{
-	return [OFString stringWithUTF8String: sqlite3_errstr(_errorCode)];
 }
 @end
