@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2020, Jonathan Schleifer <js@nil.im>
  *
- * https://fossil.nil.im/objsqlite
+ * https://fossil.nil.im/objsqlite3
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -20,21 +20,44 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ObjFW/ObjFW.h>
+#import "SL3Connection.h"
 
-#include <sqlite3.h>
+#import "SL3Exception.h"
 
-OF_ASSUME_NONNULL_BEGIN
-
-@interface SLConnection: OFObject
+@implementation SL3Connection
++ (instancetype)connectionWithPath: (OFString *)path
+			     flags: (int)flags
 {
-	sqlite3 *_database;
+	return [[[self alloc] initWithPath: path
+				     flags: flags] autorelease];
 }
 
-+ (instancetype)connectionWithPath: (OFString *)path
-			     flags: (int)flags;
 - (instancetype)initWithPath: (OFString *)path
-		       flags: (int)flags;
-@end
+		       flags: (int)flags
+{
+	self = [super init];
 
-OF_ASSUME_NONNULL_END
+	@try {
+		int errorCode = sqlite3_open_v2(path.UTF8String, &_database,
+		    flags, NULL);
+
+		if (errorCode != SQLITE_OK)
+			/* TODO: Use an SL3Exception subclass. */
+			@throw [SL3Exception
+			    exceptionWithConnection: nil
+					  errorCode: errorCode];
+	} @catch (id e) {
+		[self release];
+		@throw e;
+	}
+
+	return self;
+}
+
+- (void)dealloc
+{
+	sqlite3_close(_database);
+
+	[super dealloc];
+}
+@end

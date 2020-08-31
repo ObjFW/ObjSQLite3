@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2020, Jonathan Schleifer <js@nil.im>
  *
- * https://fossil.nil.im/objsqlite
+ * https://fossil.nil.im/objsqlite3
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -20,38 +20,21 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SLException.h"
+#import <ObjFW/ObjFW.h>
 
-@implementation SLException
-@synthesize connection = _connection, errorCode = _errorCode;
+#include <sqlite3.h>
 
-+ (instancetype)exceptionWithConnection: (SLConnection *)connection
-			      errorCode: (int)errorCode
+OF_ASSUME_NONNULL_BEGIN
+
+@interface SL3Connection: OFObject
 {
-	return [[[self alloc] initWithConnection: connection
-				       errorCode: errorCode] autorelease];
+	sqlite3 *_database;
 }
 
-- (instancetype)initWithConnection: (SLConnection *)connection
-			 errorCode: (int)errorCode
-{
-	self = [super init];
-
-	_connection = [connection retain];
-	_errorCode = errorCode;
-
-	return self;
-}
-
-- (void)dealloc
-{
-	[_connection release];
-
-	[super dealloc];
-}
-
-- (OFString *)description
-{
-	return [OFString stringWithUTF8String: sqlite3_errstr(_errorCode)];
-}
++ (instancetype)connectionWithPath: (OFString *)path
+			     flags: (int)flags;
+- (instancetype)initWithPath: (OFString *)path
+		       flags: (int)flags;
 @end
+
+OF_ASSUME_NONNULL_END

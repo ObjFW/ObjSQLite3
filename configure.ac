@@ -1,4 +1,4 @@
-AC_INIT(ObjSQLite, 0.1, js@nil.im)
+AC_INIT(ObjSQLite3, 0.1, js@nil.im)
 AC_CONFIG_SRCDIR(src)
 AC_CONFIG_AUX_DIR(build-aux)
 AC_CONFIG_MACRO_DIR(build-aux/m4)
@@ -40,32 +40,32 @@ AC_ARG_ENABLE(shared,
 	AS_HELP_STRING([--disable-shared], [do not build shared library]))
 AS_IF([test x"$enable_shared" != x"no"], [
 	BUILDSYS_SHARED_LIB
-	AC_SUBST(OBJSQLITE_SHARED_LIB, "${LIB_PREFIX}objsqlite${LIB_SUFFIX}")
+	AC_SUBST(OBJSQLITE3_SHARED_LIB, "${LIB_PREFIX}objsqlite3${LIB_SUFFIX}")
 	AC_SUBST(EXCEPTIONS_LIB_A, "exceptions.lib.a")
 	AC_SUBST(EXCEPTIONS_EXCEPTIONS_LIB_A, "exceptions/exceptions.lib.a")
 
 	BUILDSYS_FRAMEWORK([
-		AC_SUBST(OBJSQLITE_FRAMEWORK, "ObjSQLite.framework")
+		AC_SUBST(OBJSQLITE3_FRAMEWORK, "ObjSQLite3.framework")
 	])
 ])
 AC_ARG_ENABLE(static, AS_HELP_STRING([--enable-static], [build static library]))
 AS_IF([test x"$enable_static" = x"yes" -o x"$enable_shared" = x"no"], [
-	AC_SUBST(OBJSQLITE_STATIC_LIB, "libobjsqlite.a")
+	AC_SUBST(OBJSQLITE3_STATIC_LIB, "libobjsqlite3.a")
 	AC_SUBST(EXCEPTIONS_A, "exceptions.a")
 	AC_SUBST(EXCEPTIONS_EXCEPTIONS_A, "exceptions/exceptions.a")
 ])
 
-AC_ARG_WITH(sqlite, AS_HELP_STRING([--with-sqlite=PREFIX],
-	[build with SQLite in the specified prefix]))
-AS_IF([test x"$with_sqlite" != x"no" -a x"$with_sqlite" != x""], [
-	SQLITE_CPPFLAGS="-I$with_sqlite/include"
-	SQLITE_LIBS="-L$with_sqlite/lib"
-	CPPFLAGS="$CPPFLAGS $SQLITE_CPPFLAGS"
-	LIBS="$LIBS $SQLITE_LIBS"
+AC_ARG_WITH(sqlite3, AS_HELP_STRING([--with-sqlite3=PREFIX],
+	[build with SQLite3 in the specified prefix]))
+AS_IF([test x"$with_sqlite3" != x"no" -a x"$with_sqlite3" != x""], [
+	SQLITE3_CPPFLAGS="-I$with_sqlite3/include"
+	SQLITE3_LIBS="-L$with_sqlite3/lib"
+	CPPFLAGS="$CPPFLAGS $SQLITE3_CPPFLAGS"
+	LIBS="$LIBS $SQLITE3_LIBS"
 ])
 
 AC_CHECK_LIB(sqlite3, main, [
-	SQLITE_LIBS="$SQLITE_LIBS -lsqlite3"
+	SQLITE3_LIBS="$SQLITE3_LIBS -lsqlite3"
 	LIBS="$LIBS -lsqlite3"
 ], [
 	AC_MSG_ERROR(You need SQLite3 and installed!)
@@ -110,8 +110,8 @@ dnl and add OBJCPPFLAGS to CPPFLAGS, thus we need to AC_SUBST these ourself.
 AC_SUBST(CPP)
 AC_SUBST(CPPFLAGS)
 
-AC_SUBST(SQLITE_CFLAGS)
-AC_SUBST(SQLITE_LIBS)
+AC_SUBST(SQLITE3_CPPFLAGS)
+AC_SUBST(SQLITE3_LIBS)
 
-AC_CONFIG_FILES([buildsys.mk extra.mk ObjSQLite.oc])
+AC_CONFIG_FILES([buildsys.mk extra.mk ObjSQLite3.oc])
 AC_OUTPUT

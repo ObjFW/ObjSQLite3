@@ -1,5 +1,5 @@
 SUBDIRS = src
-DISTCLEAN = ObjSQLite.oc	\
+DISTCLEAN = ObjSQLite3.oc	\
 	    aclocal.m4		\
 	    autom4te.cache	\
 	    buildsys.mk		\

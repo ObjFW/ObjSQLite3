@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2020, Jonathan Schleifer <js@nil.im>
  *
- * https://fossil.nil.im/objsqlite
+ * https://fossil.nil.im/objsqlite3
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -20,43 +20,38 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SLConnection.h"
+#import "SL3Exception.h"
 
-#import "SLException.h"
+@implementation SL3Exception
+@synthesize connection = _connection, errorCode = _errorCode;
 
-@implementation SLConnection
-+ (instancetype)connectionWithPath: (OFString *)path
-			     flags: (int)flags
++ (instancetype)exceptionWithConnection: (SL3Connection *)connection
+			      errorCode: (int)errorCode
 {
-	return [[[self alloc] initWithPath: path
-				     flags: flags] autorelease];
+	return [[[self alloc] initWithConnection: connection
+				       errorCode: errorCode] autorelease];
 }
 
-- (instancetype)initWithPath: (OFString *)path
-		       flags: (int)flags
+- (instancetype)initWithConnection: (SL3Connection *)connection
+			 errorCode: (int)errorCode
 {
 	self = [super init];
 
-	@try {
-		int errorCode = sqlite3_open_v2(path.UTF8String, &_database,
-		    flags, NULL);
-
-		if (errorCode != SQLITE_OK)
-			/* TODO: Use an SLException subclass. */
-			@throw [SLException exceptionWithConnection: nil
-							  errorCode: errorCode];
-	} @catch (id e) {
-		[self release];
-		@throw e;
-	}
+	_connection = [connection retain];
+	_errorCode = errorCode;
 
 	return self;
 }
 
 - (void)dealloc
 {
-	sqlite3_close(_database);
+	[_connection release];
 
 	[super dealloc];
+}
+
+- (OFString *)description
+{
+	return [OFString stringWithUTF8String: sqlite3_errstr(_errorCode)];
 }
 @end

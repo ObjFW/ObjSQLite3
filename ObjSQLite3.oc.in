@@ -1,0 +1,3 @@
+package_format 1
+CPPFLAGS="$CPPFLAGS @SQLITE3_CPPFLAGS@"
+LIBS="-lobjsqlite3 @SQLITE3_LIBS@ $LIBS"

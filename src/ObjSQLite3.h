@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2020, Jonathan Schleifer <js@nil.im>
  *
- * https://fossil.nil.im/objsqlite
+ * https://fossil.nil.im/objsqlite3
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -20,4 +20,4 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SLConnection.h"
+#import "SL3Connection.h"

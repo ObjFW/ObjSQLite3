@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2020, Jonathan Schleifer <js@nil.im>
  *
- * https://fossil.nil.im/objsqlite
+ * https://fossil.nil.im/objsqlite3
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -22,22 +22,22 @@
 
 #import <ObjFW/ObjFW.h>
 
-#import "SLConnection.h"
+#import "SL3Connection.h"
 
 OF_ASSUME_NONNULL_BEGIN
 
-@interface SLException: OFException
+@interface SL3Exception: OFException
 {
-	SLConnection *_connection;
+	SL3Connection *_connection;
 	int _errorCode;
 }
 
-@property OF_NULLABLE_PROPERTY (readonly, nonatomic) SLConnection *connection;
+@property OF_NULLABLE_PROPERTY (readonly, nonatomic) SL3Connection *connection;
 @property (readonly, nonatomic) int errorCode;
 
-+ (instancetype)exceptionWithConnection: (nullable SLConnection *)connection
++ (instancetype)exceptionWithConnection: (nullable SL3Connection *)connection
 			      errorCode: (int)errorCode;
-- (instancetype)initWithConnection: (nullable SLConnection *)connection
+- (instancetype)initWithConnection: (nullable SL3Connection *)connection
 			 errorCode: (int)errorCode OF_DESIGNATED_INITIALIZER;
 @end
 
