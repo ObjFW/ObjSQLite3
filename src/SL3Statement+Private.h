@@ -20,24 +20,13 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ObjFW/ObjFW.h>
-
-#include <sqlite3.h>
+#import "SL3Statement.h"
 
 OF_ASSUME_NONNULL_BEGIN
 
-@interface SL3Connection: OFObject
-{
-#ifdef SL3_PUBLIC_IVARS
-@public
-#endif
-	sqlite3 *_db;
-}
-
-+ (instancetype)connectionWithPath: (OFString *)path
-			     flags: (int)flags;
-- (instancetype)initWithPath: (OFString *)path
-		       flags: (int)flags;
+@interface SL3Statement ()
+- (instancetype)sl3_initWithConnection: (SL3Connection *)connection
+			  SQLStatement: (OFConstantString *)SQLStatement;
 @end
 
 OF_ASSUME_NONNULL_END

@@ -38,14 +38,12 @@
 	self = [super init];
 
 	@try {
-		int errorCode = sqlite3_open_v2(path.UTF8String, &_database,
-		    flags, NULL);
+		int code = sqlite3_open_v2(path.UTF8String, &_db, flags, NULL);
 
-		if (errorCode != SQLITE_OK)
-			@throw [SL3OpenFailedException
-			    exceptionWithPath: path
-					flags: flags
-				    errorCode: errorCode];
+		if (code != SQLITE_OK)
+			@throw [SL3OpenFailedException exceptionWithPath: path
+								   flags: flags
+							       errorCode: code];
 	} @catch (id e) {
 		[self release];
 		@throw e;
@@ -56,7 +54,7 @@
 
 - (void)dealloc
 {
-	sqlite3_close(_database);
+	sqlite3_close(_db);
 
 	[super dealloc];
 }

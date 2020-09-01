@@ -20,24 +20,50 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ObjFW/ObjFW.h>
+#import "SL3ClearBindingsFailedException.h"
 
-#include <sqlite3.h>
+@implementation SL3ClearBindingsFailedException
+@synthesize statement = _statement;
 
-OF_ASSUME_NONNULL_BEGIN
-
-@interface SL3Connection: OFObject
++ (instancetype)exceptionWithConnection: (SL3Connection *)connection
+			      errorCode: (int)errorCode
 {
-#ifdef SL3_PUBLIC_IVARS
-@public
-#endif
-	sqlite3 *_db;
+	OF_UNRECOGNIZED_SELECTOR
 }
 
-+ (instancetype)connectionWithPath: (OFString *)path
-			     flags: (int)flags;
-- (instancetype)initWithPath: (OFString *)path
-		       flags: (int)flags;
-@end
++ (instancetype)exceptionWithStatement: (SL3Statement *)statement
+			     errorCode: (int)errorCode
+{
+	return [[[self alloc] initWithStatement: statement
+				      errorCode: errorCode] autorelease];
+}
 
-OF_ASSUME_NONNULL_END
+- (instancetype)initWithConnection: (SL3Connection *)connection
+			 errorCode: (int)errorCode
+{
+	OF_INVALID_INIT_METHOD
+}
+
+- (instancetype)initWithStatement: (SL3Statement *)statement
+			errorCode: (int)errorCode
+{
+	self = [super initWithConnection: statement->_connection
+			       errorCode: errorCode];
+
+	@try {
+		_statement = [statement retain];
+	} @catch (id e) {
+		[self release];
+		@throw e;
+	}
+
+	return self;
+}
+
+- (void)dealloc
+{
+	[_statement release];
+
+	[super dealloc];
+}
+@end

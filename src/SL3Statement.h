@@ -26,18 +26,23 @@
 
 OF_ASSUME_NONNULL_BEGIN
 
-@interface SL3Connection: OFObject
+@class SL3Connection;
+
+@interface SL3Statement: OFObject
 {
 #ifdef SL3_PUBLIC_IVARS
 @public
 #endif
-	sqlite3 *_db;
+	SL3Connection *_connection;
+	sqlite3_stmt *_stmt;
 }
 
-+ (instancetype)connectionWithPath: (OFString *)path
-			     flags: (int)flags;
-- (instancetype)initWithPath: (OFString *)path
-		       flags: (int)flags;
+- (void)bindWithArray: (OFArray *)array;
+- (void)bindWithDictionary:
+    (OFDictionary OF_GENERIC(OFString *, id) *)dictionary;
+- (void)clearBindings;
+- (void)step;
+- (void)reset;
 @end
 
 OF_ASSUME_NONNULL_END

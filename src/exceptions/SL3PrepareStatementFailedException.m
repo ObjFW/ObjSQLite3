@@ -20,24 +20,53 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ObjFW/ObjFW.h>
+#import "SL3PrepareStatementFailedException.h"
 
-#include <sqlite3.h>
+@implementation SL3PrepareStatementFailedException
+@synthesize SQLStatement = _SQLStatement;
 
-OF_ASSUME_NONNULL_BEGIN
-
-@interface SL3Connection: OFObject
++ (instancetype)exceptionWithConnection: (SL3Connection *)connection
+			      errorCode: (int)errorCode
 {
-#ifdef SL3_PUBLIC_IVARS
-@public
-#endif
-	sqlite3 *_db;
+	OF_UNRECOGNIZED_SELECTOR
 }
 
-+ (instancetype)connectionWithPath: (OFString *)path
-			     flags: (int)flags;
-- (instancetype)initWithPath: (OFString *)path
-		       flags: (int)flags;
-@end
++ (instancetype)exceptionWithConnection: (SL3Connection *)connection
+			   SQLStatement: (OFConstantString *)SQLStatement
+			      errorCode: (int)errorCode;
+{
+	return [[[self alloc] initWithConnection: connection
+				    SQLStatement: SQLStatement
+				       errorCode: errorCode] autorelease];
+}
 
-OF_ASSUME_NONNULL_END
+- (instancetype)initWithConnection: (SL3Connection *)connection
+			 errorCode: (int)errorCode
+{
+	OF_INVALID_INIT_METHOD
+}
+
+- (instancetype)initWithConnection: (SL3Connection *)connection
+		      SQLStatement: (OFConstantString *)SQLStatement
+			 errorCode: (int)errorCode
+{
+	self = [super initWithConnection: connection
+			       errorCode: errorCode];
+
+	@try {
+		_SQLStatement = [SQLStatement retain];
+	} @catch (id e) {
+		[self release];
+		@throw e;
+	}
+
+	return self;
+}
+
+- (void)dealloc
+{
+	[_SQLStatement release];
+
+	[super dealloc];
+}
+@end

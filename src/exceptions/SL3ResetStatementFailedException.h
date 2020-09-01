@@ -20,24 +20,27 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ObjFW/ObjFW.h>
+#import "SL3Exception.h"
 
-#include <sqlite3.h>
+#import "SL3Statement.h"
 
 OF_ASSUME_NONNULL_BEGIN
 
-@interface SL3Connection: OFObject
+@interface SL3ResetStatementFailedException: SL3Exception
 {
-#ifdef SL3_PUBLIC_IVARS
-@public
-#endif
-	sqlite3 *_db;
+	SL3Statement *_statement;
 }
 
-+ (instancetype)connectionWithPath: (OFString *)path
-			     flags: (int)flags;
-- (instancetype)initWithPath: (OFString *)path
-		       flags: (int)flags;
+@property (readonly, nonatomic) SL3Statement *statement;
+
++ (instancetype)exceptionWithConnection: (nullable SL3Connection *)connection
+			      errorCode: (int)errorCode OF_UNAVAILABLE;
++ (instancetype)exceptionWithStatement: (SL3Statement *)statement
+			     errorCode: (int)errorCode;
+- (instancetype)initWithConnection: (nullable SL3Connection *)connection
+			 errorCode: (int)errorCode OF_UNAVAILABLE;
+- (instancetype)initWithStatement: (SL3Statement *)statement
+			errorCode: (int)errorCode OF_DESIGNATED_INITIALIZER;
 @end
 
 OF_ASSUME_NONNULL_END

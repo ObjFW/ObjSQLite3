@@ -20,10 +20,10 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SL3OpenFailedException.h"
+#import "SL3BindObjectFailedException.h"
 
-@implementation SL3OpenFailedException
-@synthesize path = _path, flags = _flags;
+@implementation SL3BindObjectFailedException
+@synthesize object = _object, column = _column, statement = _statement;
 
 + (instancetype)exceptionWithConnection: (SL3Connection *)connection
 			      errorCode: (int)errorCode
@@ -31,13 +31,15 @@
 	OF_UNRECOGNIZED_SELECTOR
 }
 
-+ (instancetype)exceptionWithPath: (OFString *)path
-			    flags: (int)flags
-			errorCode: (int)errorCode
++ (instancetype)exceptionWithObject: (id)object
+			     column: (int)column
+			  statement: (SL3Statement *)statement
+			  errorCode: (int)errorCode
 {
-	return [[[self alloc] initWithPath: path
-				     flags: flags
-				 errorCode: errorCode] autorelease];
+	return [[[self alloc] initWithObject: object
+				      column: column
+				   statement: statement
+				   errorCode: errorCode] autorelease];
 }
 
 - (instancetype)initWithConnection: (SL3Connection *)connection
@@ -46,16 +48,17 @@
 	OF_INVALID_INIT_METHOD
 }
 
-- (instancetype)initWithPath: (OFString *)path
-		       flags: (int)flags
-		   errorCode: (int)errorCode
+- (instancetype)initWithObject: (id)object
+			column: (int)column
+		     statement: (SL3Statement *)statement
+		     errorCode: (int)errorCode
 {
-	self = [super initWithConnection: nil
+	self = [super initWithConnection: statement->_connection
 			       errorCode: errorCode];
 
 	@try {
-		_path = [path copy];
-		_flags = flags;
+		_object = [object retain];
+		_statement = [statement retain];
 	} @catch (id e) {
 		[self release];
 		@throw e;
@@ -66,7 +69,8 @@
 
 - (void)dealloc
 {
-	[_path release];
+	[_object release];
+	[_statement release];
 
 	[super dealloc];
 }

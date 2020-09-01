@@ -8,7 +8,8 @@ FRAMEWORK = ${OBJSQLITE3_FRAMEWORK}
 LIB_MAJOR = 0
 LIB_MINOR = 0
 
-SRCS = SL3Connection.m
+SRCS = SL3Connection.m	\
+       SL3Statement.m
 INCLUDES := ${SRCS:.m=.h}	\
 	    ObjSQLite3.h
 
@@ -17,7 +18,7 @@ LIB_OBJS_EXTRA = ${EXCEPTIONS_EXCEPTIONS_LIB_A}
 
 include ../buildsys.mk
 
-CPPFLAGS += -I. -Iexceptions
+CPPFLAGS += -I. -Iexceptions -DSL3_PUBLIC_IVARS
 LD = ${OBJC}
 FRAMEWORK_LIBS := ${OBJFW_FRAMEWORK_LIBS} ${LIBS}
 LIBS := ${OBJFW_LIBS} ${LIBS}
