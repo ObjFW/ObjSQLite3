@@ -106,6 +106,35 @@ AS_IF([test x"$GOBJC" = x"yes"], [
 	])
 ])
 
+AS_IF([test x"$cross_compiling" = x"yes"], [
+	case "$host" in
+		i?86-*-mingw*)
+			AC_CHECK_PROG(WINE, wine, wine)
+			;;
+		x86_64-*-mingw*)
+			AC_CHECK_PROG(WINE, wine64, wine64)
+			;;
+	esac
+
+	AS_IF([test x"$WINE" != x""], [
+		AC_SUBST(RUN_TESTS, "run")
+		AC_SUBST(WRAPPER, "$WINE")
+	])
+
+	AS_IF([test x"$with_wii" = x"yes"], [
+		dnl Keep this lowercase, as WIILOAD is a variable used by
+		dnl wiiload and thus likely already set by the user to something
+		dnl that is not the path of the wiiload binary.
+		AC_CHECK_PROG(wiiload, wiiload, wiiload)
+
+		AS_IF([test x"$wiiload" != x""], [
+			AC_SUBST(WRAPPER, "$wiiload")
+		])
+	])
+], [
+	AC_SUBST(RUN_TESTS, "run")
+])
+
 dnl We don't call AC_PROG_CPP, but only AC_PROG_OBJCPP and set CPP to OBJCPP
 dnl and add OBJCPPFLAGS to CPPFLAGS, thus we need to AC_SUBST these ourself.
 AC_SUBST(CPP)
