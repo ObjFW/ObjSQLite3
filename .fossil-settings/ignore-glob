@@ -9,6 +9,7 @@
 *.orig
 *.so
 *.so.*
+ObjSQLite3.oc
 aclocal.m4
 autom4te.cache
 buildsys.mk
@@ -16,4 +17,4 @@ config.log
 config.status
 configure
 extra.mk
-ObjSQLite3.oc
+tests/tests
