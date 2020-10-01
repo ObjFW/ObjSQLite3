@@ -42,7 +42,7 @@ releaseObject(void *object)
 	self = [super init];
 
 	@try {
-		int code = sqlite3_prepare_v2(connection->_db,
+		int code = sqlite3_prepare_v2(connection->_conn,
 		    SQLStatement.UTF8String, SQLStatement.UTF8StringLength,
 		    &_stmt, NULL);
 

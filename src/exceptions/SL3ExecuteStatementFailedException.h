@@ -33,14 +33,10 @@ OF_ASSUME_NONNULL_BEGIN
 
 @property (readonly, nonatomic) SL3PreparedStatement *statement;
 
-+ (instancetype)exceptionWithConnection: (nullable SL3Connection *)connection
-			      errorCode: (int)errorCode OF_UNAVAILABLE;
 + (instancetype)exceptionWithStatement: (SL3PreparedStatement *)statement
 			     errorCode: (int)errorCode;
-- (instancetype)initWithConnection: (nullable SL3Connection *)connection
-			 errorCode: (int)errorCode OF_UNAVAILABLE;
 - (instancetype)initWithStatement: (SL3PreparedStatement *)statement
-			errorCode: (int)errorCode OF_DESIGNATED_INITIALIZER;
+			errorCode: (int)errorCode;
 @end
 
 OF_ASSUME_NONNULL_END

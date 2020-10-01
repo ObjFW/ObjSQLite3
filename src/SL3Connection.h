@@ -34,7 +34,7 @@ OF_ASSUME_NONNULL_BEGIN
 #ifdef SL3_PUBLIC_IVARS
 @public
 #endif
-	sqlite3 *_db;
+	sqlite3 *_conn;
 }
 
 + (instancetype)connectionWithPath: (OFString *)path;
@@ -44,6 +44,7 @@ OF_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithPath: (OFString *)path
 		       flags: (int)flags OF_DESIGNATED_INITIALIZER;
 - (SL3PreparedStatement *)prepareStatement: (OFConstantString *)SQL;
+- (void)executeStatement: (OFConstantString *)SQL;
 @end
 
 OF_ASSUME_NONNULL_END

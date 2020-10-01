@@ -23,6 +23,7 @@
 #import "SL3Connection.h"
 #import "SL3PreparedStatement.h"
 
+#import "SL3ExecuteStatementFailedException.h"
 #import "SL3OpenFailedException.h"
 
 @implementation SL3Connection
@@ -50,7 +51,8 @@
 	self = [super init];
 
 	@try {
-		int code = sqlite3_open_v2(path.UTF8String, &_db, flags, NULL);
+		int code = sqlite3_open_v2(path.UTF8String, &_conn, flags,
+		    NULL);
 
 		if (code != SQLITE_OK)
 			@throw [SL3OpenFailedException exceptionWithPath: path
@@ -66,7 +68,7 @@
 
 - (void)dealloc
 {
-	sqlite3_close(_db);
+	sqlite3_close(_conn);
 
 	[super dealloc];
 }
@@ -76,5 +78,15 @@
 	return [[[SL3PreparedStatement alloc]
 	    sl3_initWithConnection: self
 		      SQLStatement: SQL] autorelease];
+}
+
+- (void)executeStatement: (OFConstantString *)SQL
+{
+	int code = sqlite3_exec(_conn, SQL.UTF8String, NULL, NULL, NULL);
+
+	if (code != SQLITE_OK)
+		@throw [SL3ExecuteStatementFailedException
+		    exceptionWithConnection: self
+				  errorCode: code];
 }
 @end

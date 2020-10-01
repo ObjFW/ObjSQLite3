@@ -25,23 +25,11 @@
 @implementation SL3ExecuteStatementFailedException
 @synthesize statement = _statement;
 
-+ (instancetype)exceptionWithConnection: (SL3Connection *)connection
-			      errorCode: (int)errorCode
-{
-	OF_UNRECOGNIZED_SELECTOR
-}
-
 + (instancetype)exceptionWithStatement: (SL3PreparedStatement *)statement
 			     errorCode: (int)errorCode
 {
 	return [[[self alloc] initWithStatement: statement
 				      errorCode: errorCode] autorelease];
-}
-
-- (instancetype)initWithConnection: (SL3Connection *)connection
-			 errorCode: (int)errorCode
-{
-	OF_INVALID_INIT_METHOD
 }
 
 - (instancetype)initWithStatement: (SL3PreparedStatement *)statement
