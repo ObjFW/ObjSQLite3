@@ -21,6 +21,7 @@
  */
 
 #import "SL3Connection.h"
+#import "SL3PreparedStatement.h"
 
 #import "SL3OpenFailedException.h"
 
@@ -68,5 +69,12 @@
 	sqlite3_close(_db);
 
 	[super dealloc];
+}
+
+- (SL3PreparedStatement *)prepareStatement: (OFConstantString *)SQL
+{
+	return [[[SL3PreparedStatement alloc]
+	    sl3_initWithConnection: self
+		      SQLStatement: SQL] autorelease];
 }
 @end

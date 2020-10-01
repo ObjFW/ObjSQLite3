@@ -24,6 +24,9 @@
 
 #include <sqlite3.h>
 
+#import "SL3PreparedStatement.h"
+#import "SL3PreparedStatement+Private.h"
+
 OF_ASSUME_NONNULL_BEGIN
 
 @interface SL3Connection: OFObject
@@ -40,6 +43,7 @@ OF_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithPath: (OFString *)path;
 - (instancetype)initWithPath: (OFString *)path
 		       flags: (int)flags OF_DESIGNATED_INITIALIZER;
+- (SL3PreparedStatement *)prepareStatement: (OFConstantString *)SQL;
 @end
 
 OF_ASSUME_NONNULL_END
