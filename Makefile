@@ -1,4 +1,4 @@
-SUBDIRS = src
+SUBDIRS = src tests
 DISTCLEAN = ObjSQLite3.oc	\
 	    aclocal.m4		\
 	    autom4te.cache	\
@@ -10,6 +10,8 @@ DISTCLEAN = ObjSQLite3.oc	\
 
 include buildsys.mk
 include extra.mk
+
+tests: src
 
 install-extra:
 	i=ObjSQLite3.oc; \

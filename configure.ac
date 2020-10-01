@@ -53,6 +53,7 @@ AS_IF([test x"$enable_static" = x"yes" -o x"$enable_shared" = x"no"], [
 	AC_SUBST(OBJSQLITE3_STATIC_LIB, "libobjsqlite3.a")
 	AC_SUBST(EXCEPTIONS_A, "exceptions.a")
 	AC_SUBST(EXCEPTIONS_EXCEPTIONS_A, "exceptions/exceptions.a")
+	AC_SUBST(LIBOBJSQLITE3_DEP, "../src/libobjsqlite3.a")
 ])
 
 AC_ARG_WITH(sqlite3, AS_HELP_STRING([--with-sqlite3=PREFIX],
