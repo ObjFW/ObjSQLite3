@@ -31,7 +31,7 @@
 	OF_UNRECOGNIZED_SELECTOR
 }
 
-+ (instancetype)exceptionWithStatement: (SL3Statement *)statement
++ (instancetype)exceptionWithStatement: (SL3PreparedStatement *)statement
 			     errorCode: (int)errorCode
 {
 	return [[[self alloc] initWithStatement: statement
@@ -44,7 +44,7 @@
 	OF_INVALID_INIT_METHOD
 }
 
-- (instancetype)initWithStatement: (SL3Statement *)statement
+- (instancetype)initWithStatement: (SL3PreparedStatement *)statement
 			errorCode: (int)errorCode
 {
 	self = [super initWithConnection: statement->_connection

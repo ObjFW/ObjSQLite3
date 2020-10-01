@@ -21,3 +21,4 @@
  */
 
 #import "SL3Connection.h"
+#import "SL3PreparedStatement.h"

@@ -8,8 +8,8 @@ FRAMEWORK = ${OBJSQLITE3_FRAMEWORK}
 LIB_MAJOR = 0
 LIB_MINOR = 0
 
-SRCS = SL3Connection.m	\
-       SL3Statement.m
+SRCS = SL3Connection.m		\
+       SL3PreparedStatement.m
 INCLUDES := ${SRCS:.m=.h}	\
 	    ObjSQLite3.h
 

@@ -20,8 +20,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SL3Statement.h"
-#import "SL3Statement+Private.h"
+#import "SL3PreparedStatement.h"
+#import "SL3PreparedStatement+Private.h"
 
 #import "SL3BindObjectFailedException.h"
 #import "SL3ClearBindingsFailedException.h"
@@ -35,7 +35,7 @@ releaseObject(void *object)
 	[(id)object release];
 }
 
-@implementation SL3Statement
+@implementation SL3PreparedStatement
 - (instancetype)sl3_initWithConnection: (SL3Connection *)connection
 			  SQLStatement: (OFConstantString *)SQLStatement
 {
@@ -70,7 +70,7 @@ releaseObject(void *object)
 }
 
 static void
-bindObject(SL3Statement *statement, int column, id object)
+bindObject(SL3PreparedStatement *statement, int column, id object)
 {
 	int code;
 

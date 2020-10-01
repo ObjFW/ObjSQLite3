@@ -22,7 +22,7 @@
 
 #import "SL3Exception.h"
 
-#import "SL3Statement.h"
+#import "SL3PreparedStatement.h"
 
 OF_ASSUME_NONNULL_BEGIN
 
@@ -30,24 +30,24 @@ OF_ASSUME_NONNULL_BEGIN
 {
 	id _object;
 	int _column;
-	SL3Statement *_statement;
+	SL3PreparedStatement *_statement;
 }
 
 @property (readonly, nonatomic) id object;
 @property (readonly, nonatomic) int column;
-@property (readonly, nonatomic) SL3Statement *statement;
+@property (readonly, nonatomic) SL3PreparedStatement *statement;
 
 + (instancetype)exceptionWithConnection: (nullable SL3Connection *)connection
 			      errorCode: (int)errorCode OF_UNAVAILABLE;
 + (instancetype)exceptionWithObject: (id)object
 			     column: (int)column
-			  statement: (SL3Statement *)statement
+			  statement: (SL3PreparedStatement *)statement
 			  errorCode: (int)errorCode;
 - (instancetype)initWithConnection: (nullable SL3Connection *)connection
 			 errorCode: (int)errorCode OF_UNAVAILABLE;
 - (instancetype)initWithObject: (id)object
 			column: (int)column
-		     statement: (SL3Statement *)statement
+		     statement: (SL3PreparedStatement *)statement
 		     errorCode: (int)errorCode OF_DESIGNATED_INITIALIZER;
 @end
 

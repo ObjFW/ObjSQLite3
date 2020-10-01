@@ -33,7 +33,7 @@
 
 + (instancetype)exceptionWithObject: (id)object
 			     column: (int)column
-			  statement: (SL3Statement *)statement
+			  statement: (SL3PreparedStatement *)statement
 			  errorCode: (int)errorCode
 {
 	return [[[self alloc] initWithObject: object
@@ -50,7 +50,7 @@
 
 - (instancetype)initWithObject: (id)object
 			column: (int)column
-		     statement: (SL3Statement *)statement
+		     statement: (SL3PreparedStatement *)statement
 		     errorCode: (int)errorCode
 {
 	self = [super initWithConnection: statement->_connection

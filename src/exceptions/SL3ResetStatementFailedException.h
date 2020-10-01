@@ -22,24 +22,24 @@
 
 #import "SL3Exception.h"
 
-#import "SL3Statement.h"
+#import "SL3PreparedStatement.h"
 
 OF_ASSUME_NONNULL_BEGIN
 
 @interface SL3ResetStatementFailedException: SL3Exception
 {
-	SL3Statement *_statement;
+	SL3PreparedStatement *_statement;
 }
 
-@property (readonly, nonatomic) SL3Statement *statement;
+@property (readonly, nonatomic) SL3PreparedStatement *statement;
 
 + (instancetype)exceptionWithConnection: (nullable SL3Connection *)connection
 			      errorCode: (int)errorCode OF_UNAVAILABLE;
-+ (instancetype)exceptionWithStatement: (SL3Statement *)statement
++ (instancetype)exceptionWithStatement: (SL3PreparedStatement *)statement
 			     errorCode: (int)errorCode;
 - (instancetype)initWithConnection: (nullable SL3Connection *)connection
 			 errorCode: (int)errorCode OF_UNAVAILABLE;
-- (instancetype)initWithStatement: (SL3Statement *)statement
+- (instancetype)initWithStatement: (SL3PreparedStatement *)statement
 			errorCode: (int)errorCode OF_DESIGNATED_INITIALIZER;
 @end
 
