@@ -64,6 +64,37 @@ OF_APPLICATION_DELEGATE(Tests)
 	    nil]];
 	[stmt step];
 
+	stmt = [conn prepareStatement: @"SELECT * FROM test"];
+	for (size_t i = 0; [stmt step]; i++) {
+		OF_ENSURE([stmt columnCount] == 3);
+		OF_ENSURE([[stmt nameForColumn: 0] isEqual: @"a"]);
+		OF_ENSURE([[stmt nameForColumn: 1] isEqual: @"b"]);
+		OF_ENSURE([[stmt nameForColumn: 2] isEqual: @"c"]);
+
+		switch (i) {
+		case 0:
+			OF_ENSURE([[stmt objectForColumn: 0]
+			    isEqual: [OFNumber numberWithInt: 5]]);
+			OF_ENSURE([[stmt objectForColumn: 1]
+			    isEqual: @"String"]);
+			OF_ENSURE([[stmt objectForColumn: 2]
+			    isEqual: [OFData dataWithItems: "abc"
+						     count: 3]]);
+			break;
+		case 1:
+			OF_ENSURE([[stmt objectForColumn: 0]
+			    isEqual: [OFNumber numberWithInt: 7]]);
+			OF_ENSURE([[stmt objectForColumn: 1]
+			    isEqual: @"Test"]);
+			OF_ENSURE([[stmt objectForColumn: 2]
+			    isEqual: [OFData dataWithItems: "xyz"
+						     count: 3]]);
+			break;
+		default:
+			OF_ENSURE(0);
+		}
+	}
+
 	[OFApplication terminate];
 }
 @end

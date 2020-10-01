@@ -161,7 +161,7 @@ bindObject(SL3PreparedStatement *statement, int column, id object)
 				 errorCode: code];
 }
 
-- (void)step
+- (bool)step
 {
 	int code = sqlite3_step(_stmt);
 
@@ -169,6 +169,52 @@ bindObject(SL3PreparedStatement *statement, int column, id object)
 		@throw [SL3ExecuteStatementFailedException
 		    exceptionWithStatement: self
 				 errorCode: code];
+
+	return (code == SQLITE_ROW);
+}
+
+- (id)objectForColumn: (size_t)column
+{
+	if (column > INT_MAX)
+		@throw [OFOutOfRangeException exception];
+
+	switch (sqlite3_column_type(_stmt, column)) {
+	case SQLITE_INTEGER:
+		return [OFNumber numberWithLongLong:
+		    sqlite3_column_int64(_stmt, column)];
+	case SQLITE_FLOAT:
+		return [OFNumber numberWithDouble:
+		    sqlite3_column_double(_stmt, column)];
+	case SQLITE_TEXT:
+		return [OFString stringWithUTF8String:
+		    (const char *)sqlite3_column_text(_stmt, column)];
+	case SQLITE_BLOB:
+		return [OFData
+		    dataWithItems: sqlite3_column_blob(_stmt, column)
+			    count: sqlite3_column_bytes(_stmt, column)];
+	case SQLITE_NULL:
+		return [OFNull null];
+	default:
+		OF_ENSURE(0);
+	}
+}
+
+- (size_t)columnCount
+{
+	return sqlite3_column_count(_stmt);
+}
+
+- (OFString *)nameForColumn: (size_t)column
+{
+	const char *name;
+
+	if (column > [self columnCount])
+		@throw [OFOutOfRangeException exception];
+
+	if ((name = sqlite3_column_name(_stmt, column)) == NULL)
+		@throw [OFOutOfMemoryException exception];
+
+	return [OFString stringWithUTF8String: name];
 }
 
 - (void)reset
