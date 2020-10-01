@@ -66,6 +66,10 @@ OF_APPLICATION_DELEGATE(Tests)
 
 	stmt = [conn prepareStatement: @"SELECT * FROM test"];
 	for (size_t i = 0; [stmt step]; i++) {
+		OFNumber *a;
+		OFString *b;
+		OFData *c;
+
 		OF_ENSURE([stmt columnCount] == 3);
 		OF_ENSURE([[stmt nameForColumn: 0] isEqual: @"a"]);
 		OF_ENSURE([[stmt nameForColumn: 1] isEqual: @"b"]);
@@ -73,26 +77,30 @@ OF_APPLICATION_DELEGATE(Tests)
 
 		switch (i) {
 		case 0:
-			OF_ENSURE([[stmt objectForColumn: 0]
-			    isEqual: [OFNumber numberWithInt: 5]]);
-			OF_ENSURE([[stmt objectForColumn: 1]
-			    isEqual: @"String"]);
-			OF_ENSURE([[stmt objectForColumn: 2]
-			    isEqual: [OFData dataWithItems: "abc"
-						     count: 3]]);
+			a = [OFNumber numberWithInt: 5];
+			b = @"String";
+			c = [OFData dataWithItems: "abc"
+					    count: 3];
 			break;
 		case 1:
-			OF_ENSURE([[stmt objectForColumn: 0]
-			    isEqual: [OFNumber numberWithInt: 7]]);
-			OF_ENSURE([[stmt objectForColumn: 1]
-			    isEqual: @"Test"]);
-			OF_ENSURE([[stmt objectForColumn: 2]
-			    isEqual: [OFData dataWithItems: "xyz"
-						     count: 3]]);
+			a = [OFNumber numberWithInt: 7];
+			b = @"Test";
+			c = [OFData dataWithItems: "xyz"
+					    count: 3];
 			break;
 		default:
 			OF_ENSURE(0);
 		}
+
+		OF_ENSURE([[stmt objectForColumn: 0] isEqual: a]);
+		OF_ENSURE([[stmt objectForColumn: 1] isEqual: b]);
+		OF_ENSURE([[stmt objectForColumn: 2] isEqual: c]);
+
+		OF_ENSURE([[stmt rowArray] isEqual: ([OFArray arrayWithObjects:
+		    a, b, c, nil])]);
+		OF_ENSURE([[stmt rowDictionary] isEqual:
+		    ([OFDictionary dictionaryWithKeysAndObjects:
+		    @"a", a, @"b", b, @"c", c, nil])]);
 	}
 
 	[OFApplication terminate];

@@ -217,6 +217,34 @@ bindObject(SL3PreparedStatement *statement, int column, id object)
 	return [OFString stringWithUTF8String: name];
 }
 
+- (OFArray *)rowArray
+{
+	size_t count = [self columnCount];
+	OFMutableArray *array = [OFMutableArray arrayWithCapacity: count];
+
+	for (size_t i = 0; i < count; i++)
+		[array addObject: [self objectForColumn: i]];
+
+	[array makeImmutable];
+
+	return array;
+}
+
+- (OFDictionary OF_GENERIC(OFString *, id) *)rowDictionary
+{
+	size_t count = [self columnCount];
+	OFMutableDictionary *dictionary =
+	    [OFMutableDictionary dictionaryWithCapacity: count];
+
+	for (size_t i = 0; i < count; i++)
+		[dictionary setObject: [self objectForColumn: i]
+			       forKey: [self nameForColumn: i]];
+
+	[dictionary makeImmutable];
+
+	return dictionary;
+}
+
 - (void)reset
 {
 	int code = sqlite3_reset(_stmt);

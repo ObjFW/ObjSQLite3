@@ -41,10 +41,12 @@ OF_ASSUME_NONNULL_BEGIN
 - (void)bindWithDictionary:
     (OFDictionary OF_GENERIC(OFString *, id) *)dictionary;
 - (void)clearBindings;
+- (bool)step;
 - (id)objectForColumn: (size_t)column;
 - (size_t)columnCount;
 - (OFString *)nameForColumn: (size_t)column;
-- (bool)step;
+- (OFArray *)rowArray;
+- (OFDictionary OF_GENERIC(OFString *, id) *)rowDictionary;
 - (void)reset;
 @end
 
