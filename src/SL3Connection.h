@@ -34,10 +34,12 @@ OF_ASSUME_NONNULL_BEGIN
 	sqlite3 *_db;
 }
 
++ (instancetype)connectionWithPath: (OFString *)path;
 + (instancetype)connectionWithPath: (OFString *)path
 			     flags: (int)flags;
+- (instancetype)initWithPath: (OFString *)path;
 - (instancetype)initWithPath: (OFString *)path
-		       flags: (int)flags;
+		       flags: (int)flags OF_DESIGNATED_INITIALIZER;
 @end
 
 OF_ASSUME_NONNULL_END

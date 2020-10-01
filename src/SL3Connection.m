@@ -26,10 +26,21 @@
 
 @implementation SL3Connection
 + (instancetype)connectionWithPath: (OFString *)path
+{
+	return [[[self alloc] initWithPath: path] autorelease];
+}
+
++ (instancetype)connectionWithPath: (OFString *)path
 			     flags: (int)flags
 {
 	return [[[self alloc] initWithPath: path
 				     flags: flags] autorelease];
+}
+
+- (instancetype)initWithPath: (OFString *)path
+{
+	return [self initWithPath: path
+			    flags: SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE];
 }
 
 - (instancetype)initWithPath: (OFString *)path
