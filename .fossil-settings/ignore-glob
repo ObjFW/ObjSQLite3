@@ -18,3 +18,5 @@ config.status
 configure
 extra.mk
 tests/tests
+tests/tests.db
+tests/tests.exe

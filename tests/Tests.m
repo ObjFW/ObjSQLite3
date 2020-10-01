@@ -33,6 +33,37 @@ OF_APPLICATION_DELEGATE(Tests)
 @implementation Tests
 - (void)applicationDidFinishLaunching
 {
+	OFFileManager *fileManager = [OFFileManager defaultManager];
+	SL3Connection *conn;
+	SL3PreparedStatement *stmt;
+
+	if ([fileManager fileExistsAtPath: @"tests.db"])
+	    [fileManager removeItemAtPath: @"tests.db"];
+
+	conn = [SL3Connection connectionWithPath: @"tests.db"];
+
+	[conn executeStatement: @"CREATE TABLE test (a INT, b TEXT, c BLOB)"];
+
+	stmt = [conn prepareStatement:
+	    @"INSERT INTO test (a, b, c) VALUES ($a, $b, $c)"];
+	[stmt bindWithArray: [OFArray arrayWithObjects:
+	    [OFNumber numberWithInt: 5],
+	    @"String",
+	    [OFData dataWithItems: "abc"
+			    count: 3],
+	    nil]];
+	[stmt step];
+
+	stmt = [conn prepareStatement:
+	    @"INSERT INTO test (a, b, c) VALUES ($a, $b, $c)"];
+	[stmt bindWithDictionary: [OFDictionary dictionaryWithKeysAndObjects:
+	    @"$a", [OFNumber numberWithInt: 7],
+	    @"$b", @"Test",
+	    @"$c", [OFData dataWithItems: "xyz"
+				   count: 3],
+	    nil]];
+	[stmt step];
+
 	[OFApplication terminate];
 }
 @end
