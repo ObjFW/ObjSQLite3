@@ -22,6 +22,7 @@
 
 #import "SL3Connection.h"
 #import "SL3PreparedStatement.h"
+#import "SL3PreparedStatement+Private.h"
 
 #import "SL3ExecuteStatementFailedException.h"
 #import "SL3OpenFailedException.h"

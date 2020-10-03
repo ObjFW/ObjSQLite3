@@ -25,7 +25,6 @@
 #include <sqlite3.h>
 
 #import "SL3PreparedStatement.h"
-#import "SL3PreparedStatement+Private.h"
 
 OF_ASSUME_NONNULL_BEGIN
 
