@@ -29,7 +29,7 @@ CPPFLAGS="$CPPFLAGS $OBJCPPFLAGS $($OBJFW_CONFIG --cppflags)"
 OBJCFLAGS="$OBJCFLAGS $($OBJFW_CONFIG --objcflags)"
 LDFLAGS="$LDFLAGS $($OBJFW_CONFIG --ldflags)"
 FRAMEWORK_LIBS="$($OBJFW_CONFIG --framework-libs) $LIBS"
-LIBS="$($OBJFW_CONFIG --libs) $LIBS"
+LIBS="$($OBJFW_CONFIG --libs --rpath) $LIBS"
 
 AX_CHECK_COMPILER_FLAGS(-Wdocumentation,
 	[OBJCFLAGS="$OBJCFLAGS -Wdocumentation"])
