@@ -34,7 +34,7 @@ run:
 	LIBRARY_PATH=.$${LIBRARY_PATH+:}$$LIBRARY_PATH \
 	${WRAPPER} ./${PROG_NOINST}; EXIT=$$?; \
 	rm -f libobjsqlite3.so.${OBJSQLITE3_LIB_MAJOR}; \
-	rm -f objsqlite3.so.${OBJSQLITE3_LIB_MAJOR_MINOR} objsqlite3.dll; \
+	rm -f libobjsqlite3.so.${OBJSQLITE3_LIB_MAJOR_MINOR} objsqlite3.dll; \
 	rm -f libobjsqlite3.${OBJSQLITE3_LIB_MAJOR}.dylib; \
 	exit $$EXIT
 
