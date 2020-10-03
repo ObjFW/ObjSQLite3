@@ -63,11 +63,13 @@ AS_IF([test x"$with_sqlite3" != x"no" -a x"$with_sqlite3" != x""], [
 	SQLITE3_LIBS="-L$with_sqlite3/lib"
 	CPPFLAGS="$CPPFLAGS $SQLITE3_CPPFLAGS"
 	LIBS="$LIBS $SQLITE3_LIBS"
+	FRAMEWORK_LIBS="$FRAMEWORK_LIBS $SQLITE3_LIBS"
 ])
 
 AC_CHECK_LIB(sqlite3, main, [
 	SQLITE3_LIBS="$SQLITE3_LIBS -lsqlite3"
 	LIBS="$LIBS -lsqlite3"
+	FRAMEWORK_LIBS="$FRAMEWORK_LIBS -lsqlite3"
 ], [
 	AC_MSG_ERROR(You need SQLite3 and installed!)
 ])
