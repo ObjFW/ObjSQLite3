@@ -90,4 +90,25 @@
 		    exceptionWithConnection: self
 				  errorCode: code];
 }
+
+#ifdef OF_HAVE_BLOCKS
+- (void)transactionWithBlock: (bool (^)(void))block
+{
+	bool commit;
+
+	[self executeStatement: @"BEGIN TRANSACTION"];
+
+	@try {
+		commit = block();
+	} @catch (id e) {
+		[self executeStatement: @"ROLLBACK TRANSACTION"];
+		@throw e;
+	}
+
+	if (commit)
+		[self executeStatement: @"COMMIT TRANSACTION"];
+	else
+		[self executeStatement: @"ROLLBACK TRANSACTION"];
+}
+#endif
 @end

@@ -44,6 +44,9 @@ OF_ASSUME_NONNULL_BEGIN
 		       flags: (int)flags OF_DESIGNATED_INITIALIZER;
 - (SL3PreparedStatement *)prepareStatement: (OFConstantString *)SQL;
 - (void)executeStatement: (OFConstantString *)SQL;
+#ifdef OF_HAVE_BLOCKS
+- (void)transactionWithBlock: (bool (^)(void))block;
+#endif
 @end
 
 OF_ASSUME_NONNULL_END
