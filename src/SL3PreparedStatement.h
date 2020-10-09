@@ -37,6 +37,10 @@ OF_ASSUME_NONNULL_BEGIN
 	sqlite3_stmt *_stmt;
 }
 
+@property (readonly, nonatomic) OFArray *rowArray;
+@property (readonly, nonatomic)
+    OFDictionary OF_GENERIC(OFString *, id) *rowDictionary;
+
 - (void)bindWithArray: (OFArray *)array;
 - (void)bindWithDictionary:
     (OFDictionary OF_GENERIC(OFString *, id) *)dictionary;
@@ -45,8 +49,6 @@ OF_ASSUME_NONNULL_BEGIN
 - (id)objectForColumn: (size_t)column;
 - (size_t)columnCount;
 - (OFString *)nameForColumn: (size_t)column;
-- (OFArray *)rowArray;
-- (OFDictionary OF_GENERIC(OFString *, id) *)rowDictionary;
 - (void)reset;
 @end
 
