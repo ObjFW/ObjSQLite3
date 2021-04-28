@@ -195,7 +195,7 @@ bindObject(SL3PreparedStatement *statement, int column, id object)
 	case SQLITE_NULL:
 		return [OFNull null];
 	default:
-		OF_ENSURE(0);
+		OFEnsure(0);
 	}
 }
 

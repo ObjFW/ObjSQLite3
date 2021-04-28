@@ -70,10 +70,10 @@ OF_APPLICATION_DELEGATE(Tests)
 		OFString *b;
 		OFData *c;
 
-		OF_ENSURE([stmt columnCount] == 3);
-		OF_ENSURE([[stmt nameForColumn: 0] isEqual: @"a"]);
-		OF_ENSURE([[stmt nameForColumn: 1] isEqual: @"b"]);
-		OF_ENSURE([[stmt nameForColumn: 2] isEqual: @"c"]);
+		OFEnsure([stmt columnCount] == 3);
+		OFEnsure([[stmt nameForColumn: 0] isEqual: @"a"]);
+		OFEnsure([[stmt nameForColumn: 1] isEqual: @"b"]);
+		OFEnsure([[stmt nameForColumn: 2] isEqual: @"c"]);
 
 		switch (i) {
 		case 0:
@@ -89,16 +89,16 @@ OF_APPLICATION_DELEGATE(Tests)
 					    count: 3];
 			break;
 		default:
-			OF_ENSURE(0);
+			OFEnsure(0);
 		}
 
-		OF_ENSURE([[stmt objectForColumn: 0] isEqual: a]);
-		OF_ENSURE([[stmt objectForColumn: 1] isEqual: b]);
-		OF_ENSURE([[stmt objectForColumn: 2] isEqual: c]);
+		OFEnsure([[stmt objectForColumn: 0] isEqual: a]);
+		OFEnsure([[stmt objectForColumn: 1] isEqual: b]);
+		OFEnsure([[stmt objectForColumn: 2] isEqual: c]);
 
-		OF_ENSURE([[stmt rowArray] isEqual: ([OFArray arrayWithObjects:
+		OFEnsure([[stmt rowArray] isEqual: ([OFArray arrayWithObjects:
 		    a, b, c, nil])]);
-		OF_ENSURE([[stmt rowDictionary] isEqual:
+		OFEnsure([[stmt rowDictionary] isEqual:
 		    ([OFDictionary dictionaryWithKeysAndObjects:
 		    @"a", a, @"b", b, @"c", c, nil])]);
 	}
