@@ -31,7 +31,7 @@
 OF_APPLICATION_DELEGATE(Tests)
 
 @implementation Tests
-- (void)applicationDidFinishLaunching
+- (void)applicationDidFinishLaunching: (OFNotification *)notification
 {
 	OFFileManager *fileManager = [OFFileManager defaultManager];
 	SL3Connection *conn;
