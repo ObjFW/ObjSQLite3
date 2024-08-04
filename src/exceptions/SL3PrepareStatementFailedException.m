@@ -33,7 +33,7 @@
 
 + (instancetype)exceptionWithConnection: (SL3Connection *)connection
 			   SQLStatement: (OFConstantString *)SQLStatement
-			      errorCode: (int)errorCode;
+			      errorCode: (int)errorCode
 {
 	return [[[self alloc] initWithConnection: connection
 				    SQLStatement: SQLStatement

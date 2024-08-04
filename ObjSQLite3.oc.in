@@ -1,5 +1,5 @@
 package_format 1
 CPPFLAGS="$CPPFLAGS @SQLITE3_CPPFLAGS@"
-LIBS="-lobjsqlite3 @SQLITE3_LIBS@ $LIBS"
-FRAMEWORK_LIBS="-framework ObjSQLite3 @SQLITE3_LIBS@ $FRAMEWORK_LIBS"
-STATIC_LIBS="${libdir}/libobjsqlite3.a @SQLITE3_LIBS@ $STATIC_LIBS"
+LIBS="-L@libdir@ -lobjsqlite3 @SQLITE3_LIBS@ $LIBS"
+FRAMEWORK_LIBS="-L@libdir@ -lobjsqlite3 @SQLITE3_LIBS@ $FRAMEWORK_LIBS"
+STATIC_LIBS="@libdir@/libobjsqlite3.a @SQLITE3_LIBS@ $STATIC_LIBS"
