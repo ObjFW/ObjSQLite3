@@ -116,7 +116,10 @@ bindObject(SL3PreparedStatement *statement, int column, id object)
 	void *pool = objc_autoreleasePoolPush();
 	int column = 0;
 
-	if (array.count > sqlite3_bind_parameter_count(_stmt))
+	if (array.count > INT_MAX)
+		@throw [OFOutOfRangeException exception];
+
+	if ((int)array.count > sqlite3_bind_parameter_count(_stmt))
 		@throw [OFOutOfRangeException exception];
 
 	for (id object in array)
