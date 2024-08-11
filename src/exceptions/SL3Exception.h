@@ -48,8 +48,8 @@ OF_ASSUME_NONNULL_BEGIN
 /**
  * @brief Creates a new SQLite3 exception.
  *
- * @param connection The connection for which the exception occurred.
- * @param errorCode The SQLite3 error code.
+ * @param connection The connection for which the exception occurred
+ * @param errorCode The SQLite3 error code
  * @return A new, autoreleased SQLite3 exception
  */
 + (instancetype)exceptionWithConnection: (nullable SL3Connection *)connection
@@ -60,8 +60,8 @@ OF_ASSUME_NONNULL_BEGIN
 /**
  * @brief Initializes an already allocated SQLite3 exception.
  *
- * @param connection The connection for which the exception occurred.
- * @param errorCode The SQLite3 error code.
+ * @param connection The connection for which the exception occurred
+ * @param errorCode The SQLite3 error code
  * @return An initialized SQLite3 exception
  */
 - (instancetype)initWithConnection: (nullable SL3Connection *)connection
