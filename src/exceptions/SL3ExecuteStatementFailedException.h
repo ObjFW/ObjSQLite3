@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Jonathan Schleifer <js@nil.im>
+ * Copyright (c) 2020, 2024 Jonathan Schleifer <js@nil.im>
  *
  * https://fl.nil.im/objsqlite3
  *
@@ -22,15 +22,42 @@
 
 OF_ASSUME_NONNULL_BEGIN
 
+/**
+ * @class SL3ExecuteStatementFailedException
+ *	  SL3ExecuteStatementFailedException.h
+ *	  ObjSQLite3/ObjSQLite3.h
+ *
+ * @brief An exception indicating that executing a statement failed.
+ */
 @interface SL3ExecuteStatementFailedException: SL3Exception
 {
-	SL3PreparedStatement *_statement;
+	SL3PreparedStatement *_Nullable _statement;
 }
 
-@property (readonly, nonatomic) SL3PreparedStatement *statement;
+/**
+ * @brief The statement that could not be executed.
+ */
+@property OF_NULLABLE_PROPERTY (readonly, nonatomic)
+    SL3PreparedStatement *statement;
 
+/**
+ * @brief Creates a new execute statement failed exception.
+ *
+ * @param statement The statement that could not be executed
+ * @param errorCode The SQLite3 error code
+ * @return A new, autoreleased execute statement exception failed.
+ */
 + (instancetype)exceptionWithStatement: (SL3PreparedStatement *)statement
 			     errorCode: (int)errorCode;
+
+/**
+ * @brief Initializes an an already allocated execute statement failed
+ *	  exception.
+ *
+ * @param statement The statement that could not be executed
+ * @param errorCode The SQLite3 error code
+ * @return An initialized execute statement exception failed.
+ */
 - (instancetype)initWithStatement: (SL3PreparedStatement *)statement
 			errorCode: (int)errorCode;
 @end

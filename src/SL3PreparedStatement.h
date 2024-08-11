@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Jonathan Schleifer <js@nil.im>
+ * Copyright (c) 2020, 2024 Jonathan Schleifer <js@nil.im>
  *
  * https://fl.nil.im/objsqlite3
  *
@@ -24,6 +24,11 @@ OF_ASSUME_NONNULL_BEGIN
 
 @class SL3Connection;
 
+/**
+ * @class SL3PreparedStatement SL3PreparedStatement.h ObjSQLite3/ObjSQLite3.h
+ *
+ * @brief A prepared statement.
+ */
 @interface SL3PreparedStatement: OFObject
 {
 #ifdef SL3_PUBLIC_IVARS
@@ -33,18 +38,73 @@ OF_ASSUME_NONNULL_BEGIN
 	sqlite3_stmt *_stmt;
 }
 
-@property (readonly, nonatomic) OFArray *rowArray;
-@property (readonly, nonatomic)
-    OFDictionary OF_GENERIC(OFString *, id) *rowDictionary;
+/**
+ * @brief The current row as an array.
+ */
+@property (readonly, nonatomic) OFArray *currentRowArray;
 
+/**
+ * @brief The current row as a dictionary.
+ */
+@property (readonly, nonatomic)
+    OFDictionary OF_GENERIC(OFString *, id) *currentRowDictionary;
+
+/**
+ * @brief Binds the objects from the specified array.
+ *
+ * @param array An array of objects to bind
+ * @throw OFOutOfRangeException The array has more objects than columns
+ */
 - (void)bindWithArray: (OFArray *)array;
+
+/**
+ * @brief Binds the objects from the specified dictionary that maps each column
+ *	  name to a value.
+ *
+ * @param dictionary A map of column names to values
+ * @throw OFUndefinedKeyException A column name which does not exist was
+ *				  specified
+ */
 - (void)bindWithDictionary:
     (OFDictionary OF_GENERIC(OFString *, id) *)dictionary;
+
+/**
+ * @brief Clears all bindings.
+ *
+ * @throw SL3ClearBindingsFailedException The bindings could not be cleared
+ */
 - (void)clearBindings;
+
+/**
+ * @brief Steps the prepared statement, returning the next row, if any.
+ *
+ * @return Whether there was another row
+ * @throw SL3ExecuteStatementFailedException Executing the prepared statement
+ *					     failed
+ */
 - (bool)step;
-- (id)objectForColumn: (size_t)column;
+
+/**
+ * @brief Returns the object for the specified column of the current row.
+ */
+- (id)objectForCurrentRowAtColumn: (size_t)column;
+
+/**
+ * @brief The number of columns.
+ */
 - (size_t)columnCount;
+
+/**
+ * @brief Returns the name for the specified column.
+ */
 - (OFString *)nameForColumn: (size_t)column;
+
+/**
+ * @brief Resets the prepared statement.
+ *
+ * @throw SL3ResetStatementFailedException The prepared statement could not be
+ *					   reset
+ */
 - (void)reset;
 @end
 

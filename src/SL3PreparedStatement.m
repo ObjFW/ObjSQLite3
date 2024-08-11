@@ -172,7 +172,7 @@ bindObject(SL3PreparedStatement *statement, int column, id object)
 	return (code == SQLITE_ROW);
 }
 
-- (id)objectForColumn: (size_t)column
+- (id)objectForCurrentRowAtColumn: (size_t)column
 {
 	if (column > INT_MAX)
 		@throw [OFOutOfRangeException exception];
@@ -216,27 +216,27 @@ bindObject(SL3PreparedStatement *statement, int column, id object)
 	return [OFString stringWithUTF8String: name];
 }
 
-- (OFArray *)rowArray
+- (OFArray *)currentRowArray
 {
 	size_t count = [self columnCount];
 	OFMutableArray *array = [OFMutableArray arrayWithCapacity: count];
 
 	for (size_t i = 0; i < count; i++)
-		[array addObject: [self objectForColumn: i]];
+		[array addObject: [self objectForCurrentRowAtColumn: i]];
 
 	[array makeImmutable];
 
 	return array;
 }
 
-- (OFDictionary OF_GENERIC(OFString *, id) *)rowDictionary
+- (OFDictionary OF_GENERIC(OFString *, id) *)currentRowDictionary
 {
 	size_t count = [self columnCount];
 	OFMutableDictionary *dictionary =
 	    [OFMutableDictionary dictionaryWithCapacity: count];
 
 	for (size_t i = 0; i < count; i++)
-		[dictionary setObject: [self objectForColumn: i]
+		[dictionary setObject: [self objectForCurrentRowAtColumn: i]
 			       forKey: [self nameForColumn: i]];
 
 	[dictionary makeImmutable];

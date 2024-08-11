@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Jonathan Schleifer <js@nil.im>
+ * Copyright (c) 2020, 2024 Jonathan Schleifer <js@nil.im>
  *
  * https://fl.nil.im/objsqlite3
  *
@@ -20,20 +20,51 @@
 
 OF_ASSUME_NONNULL_BEGIN
 
+/**
+ * @class SL3PrepareStatementFailedException
+ *	  SL3PrepareStatementFailedException.h
+ *	  ObjSQLite3/ObjSQLite3.h
+ *
+ * @brief An exception indicating that preparing a statement failed.
+ */
 @interface SL3PrepareStatementFailedException: SL3Exception
 {
 	OFConstantString *_SQLStatement;
 }
 
+/**
+ * @brief The SQL statement which could not be prepared.
+ */
 @property (readonly, nonatomic) OFConstantString *SQLStatement;
 
 + (instancetype)exceptionWithConnection: (nullable SL3Connection *)connection
 			      errorCode: (int)errorCode OF_UNAVAILABLE;
+
+/**
+ * @brief Creates a new prepare statement failed exception.
+ *
+ * @param connection The connection for which the statement could not be
+ *		     prepared
+ * @param SQLStatement The SQL statement which could not be prepared
+ * @param errorCode The SQLite3 error code
+ * @return A new, autoreleased prepare statement failed exception
+ */
 + (instancetype)exceptionWithConnection: (SL3Connection *)connection
 			   SQLStatement: (OFConstantString *)SQLStatement
 			      errorCode: (int)errorCode;
+
 - (instancetype)initWithConnection: (nullable SL3Connection *)connection
 			 errorCode: (int)errorCode OF_UNAVAILABLE;
+
+/**
+ * @brief Initializes an already allocated prepare statement failed exception.
+ *
+ * @param connection The connection for which the statement could not be
+ *		     prepared
+ * @param SQLStatement The SQL statement which could not be prepared
+ * @param errorCode The SQLite3 error code
+ * @return An initialized prepare statement failed exception
+ */
 - (instancetype)initWithConnection: (SL3Connection *)connection
 		      SQLStatement: (OFConstantString *)SQLStatement
 			 errorCode: (int)errorCode OF_DESIGNATED_INITIALIZER;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Jonathan Schleifer <js@nil.im>
+ * Copyright (c) 2020, 2024 Jonathan Schleifer <js@nil.im>
  *
  * https://fl.nil.im/objsqlite3
  *
@@ -24,6 +24,11 @@
 
 OF_ASSUME_NONNULL_BEGIN
 
+/**
+ * @class SL3Connection SL3Connection.h ObjSQLite3/ObjSQLite3.h
+ *
+ * @brief A connection to a database.
+ */
 @interface SL3Connection: OFObject
 {
 #ifdef SL3_PUBLIC_IVARS
@@ -32,15 +37,76 @@ OF_ASSUME_NONNULL_BEGIN
 	sqlite3 *_conn;
 }
 
+/**
+ * @brief Creates a new connection to the database at the specified path.
+ *
+ * @param path The path to the database
+ * @return A new database connection
+ * @throw SL3OpenFailedException The database could not be opened
+ */
 + (instancetype)connectionWithPath: (OFString *)path;
+
+/**
+ * @brief Creates a new connection to the database at the specified path.
+ *
+ * @param path The path to the database
+ * @param flags The flags to open the database with
+ * @return A new database connection
+ * @throw SL3OpenFailedException The database could not be opened
+ */
 + (instancetype)connectionWithPath: (OFString *)path
 			     flags: (int)flags;
+
+/**
+ * @brief Initializes an already allocated connection to connect to the
+ *	  database at the specified path.
+ *
+ * @param path The path to the database
+ * @return An initialized connection to the specified database
+ * @throw SL3OpenFailedException The database could not be opened
+ */
 - (instancetype)initWithPath: (OFString *)path;
+
+/**
+ * @brief Initializes an already allocated connection to connect to the
+ *	  database at the specified path.
+ *
+ * @param path The path to the database
+ * @param flags The flags to open the database with
+ * @return An initialized connection to the specified database
+ * @throw SL3OpenFailedException The database could not be opened
+ */
 - (instancetype)initWithPath: (OFString *)path
 		       flags: (int)flags OF_DESIGNATED_INITIALIZER;
-- (SL3PreparedStatement *)prepareStatement: (OFConstantString *)SQL;
-- (void)executeStatement: (OFConstantString *)SQL;
+
+/**
+ * @brief Prepares the specified SQL statement for the connection and returns
+ *	  it.
+ *
+ * @param SQLStatement An SQL statement to prepare
+ * @return A prepared statement
+ * @throw SL3PrepareStatementFailedException The statement could not be prepared
+ */
+- (SL3PreparedStatement *)prepareStatement: (OFConstantString *)SQLStatement;
+
+/**
+ * @brief Executes the specified statement without results.
+ *
+ * @param SQLStatement The SQL statement to execute
+ * @throw SL3ExecuteStatementFailedException The statement could not be executed
+ */
+- (void)executeStatement: (OFConstantString *)SQLStatement;
+
 #ifdef OF_HAVE_BLOCKS
+/**
+ * @brief Executes the specified block in an transaction.
+ *
+ * Before the block is executed, a transaction is started. If the block returns
+ * true, the transaction is committed. If the block returns true or throws an
+ * exception, the transaction is rolled back.
+ *
+ * @param block The block to execute in a transaction
+ */
 - (void)transactionWithBlock: (bool (^)(void))block;
 #endif
 @end

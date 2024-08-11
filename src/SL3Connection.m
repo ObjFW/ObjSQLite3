@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Jonathan Schleifer <js@nil.im>
+ * Copyright (c) 2020, 2024 Jonathan Schleifer <js@nil.im>
  *
  * https://fl.nil.im/objsqlite3
  *
@@ -70,16 +70,17 @@
 	[super dealloc];
 }
 
-- (SL3PreparedStatement *)prepareStatement: (OFConstantString *)SQL
+- (SL3PreparedStatement *)prepareStatement: (OFConstantString *)SQLStatement
 {
 	return [[[SL3PreparedStatement alloc]
 	    sl3_initWithConnection: self
-		      SQLStatement: SQL] autorelease];
+		      SQLStatement: SQLStatement] autorelease];
 }
 
-- (void)executeStatement: (OFConstantString *)SQL
+- (void)executeStatement: (OFConstantString *)SQLStatement
 {
-	int code = sqlite3_exec(_conn, SQL.UTF8String, NULL, NULL, NULL);
+	int code =
+	    sqlite3_exec(_conn, SQLStatement.UTF8String, NULL, NULL, NULL);
 
 	if (code != SQLITE_OK)
 		@throw [SL3ExecuteStatementFailedException

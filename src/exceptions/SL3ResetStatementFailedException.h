@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Jonathan Schleifer <js@nil.im>
+ * Copyright (c) 2020, 2024 Jonathan Schleifer <js@nil.im>
  *
  * https://fl.nil.im/objsqlite3
  *
@@ -22,19 +22,45 @@
 
 OF_ASSUME_NONNULL_BEGIN
 
+/**
+ * @class SL3ResetStatementFailedException SL3ResetStatementFailedException.h
+ *	  ObjSQLite3/ObjSQLite3.h
+ *
+ * @param An exception indicating that resetting a statement failed.
+ */
 @interface SL3ResetStatementFailedException: SL3Exception
 {
 	SL3PreparedStatement *_statement;
 }
 
+/**
+ * @brief The statement that could not be reset.
+ */
 @property (readonly, nonatomic) SL3PreparedStatement *statement;
 
 + (instancetype)exceptionWithConnection: (nullable SL3Connection *)connection
 			      errorCode: (int)errorCode OF_UNAVAILABLE;
+
+/**
+ * @brief Creates a new reset statement failed exception.
+ *
+ * @param statement The statement that could not be reset
+ * @param errorCode The SQLite3 error code
+ * @return A new, autoreleased reset statement failed exception.
+ */
 + (instancetype)exceptionWithStatement: (SL3PreparedStatement *)statement
 			     errorCode: (int)errorCode;
+
 - (instancetype)initWithConnection: (nullable SL3Connection *)connection
 			 errorCode: (int)errorCode OF_UNAVAILABLE;
+
+/**
+ * @brief Initializes an already allocated reset statement failed exception.
+ *
+ * @param statement The statement that could not be reset
+ * @param errorCode The SQLite3 error code
+ * @return An initialized reset statement failed exception.
+ */
 - (instancetype)initWithStatement: (SL3PreparedStatement *)statement
 			errorCode: (int)errorCode OF_DESIGNATED_INITIALIZER;
 @end

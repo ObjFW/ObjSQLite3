@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Jonathan Schleifer <js@nil.im>
+ * Copyright (c) 2020, 2024 Jonathan Schleifer <js@nil.im>
  *
  * https://fl.nil.im/objsqlite3
  *
@@ -22,6 +22,13 @@
 
 OF_ASSUME_NONNULL_BEGIN
 
+/**
+ * @class SL3BindObjectFailedException SL3BindObjectFailedException.h
+ *	  ObjSQLite3/ObjSQLite3.h
+ *
+ * @brief An exception indicating that binding an object to a prepared
+ *	  statement failed.
+ */
 @interface SL3BindObjectFailedException: SL3Exception
 {
 	id _object;
@@ -29,18 +36,53 @@ OF_ASSUME_NONNULL_BEGIN
 	SL3PreparedStatement *_statement;
 }
 
+/**
+ * @brief The object that could not be bound to a prepared statement.
+ */
 @property (readonly, nonatomic) id object;
+
+/**
+ * @brief The column of the prepared statement to which the object could not be
+ *	  bound.
+ */
 @property (readonly, nonatomic) int column;
+
+/**
+ * @brief The statement to which the object could not be bound.
+ */
 @property (readonly, nonatomic) SL3PreparedStatement *statement;
 
 + (instancetype)exceptionWithConnection: (nullable SL3Connection *)connection
 			      errorCode: (int)errorCode OF_UNAVAILABLE;
+
+/**
+ * @brief Creates an new bind object failed exception.
+ *
+ * @param object The object that could not be bound to a prepared statement
+ * @param column The column of the prepared statement to which the object could
+ *		 not be bound
+ * @param statement The statement to which the object could not be bound
+ * @param errorCode The SQLite3 error code
+ * @return A new, autoreleased bind object failed exception
+ */
 + (instancetype)exceptionWithObject: (id)object
 			     column: (int)column
 			  statement: (SL3PreparedStatement *)statement
 			  errorCode: (int)errorCode;
+
 - (instancetype)initWithConnection: (nullable SL3Connection *)connection
 			 errorCode: (int)errorCode OF_UNAVAILABLE;
+
+/**
+ * @brief Initializes an already allocated bind object failed exception.
+ *
+ * @param object The object that could not be bound to a prepared statement
+ * @param column The column of the prepared statement to which the object could
+ *		 not be bound
+ * @param statement The statement to which the object could not be bound
+ * @param errorCode The SQLite3 error code
+ * @return An initialized bind object failed exception
+ */
 - (instancetype)initWithObject: (id)object
 			column: (int)column
 		     statement: (SL3PreparedStatement *)statement

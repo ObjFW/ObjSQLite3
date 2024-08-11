@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Jonathan Schleifer <js@nil.im>
+ * Copyright (c) 2020, 2024 Jonathan Schleifer <js@nil.im>
  *
  * https://fl.nil.im/objsqlite3
  *
@@ -22,19 +22,45 @@
 
 OF_ASSUME_NONNULL_BEGIN
 
+/**
+ * @class SL3ClearBindingsFailedException SL3ClearBindingsFailedException.h
+ *	  ObjSQLite3/ObjSQLite3.h
+ *
+ * @brief An exception indicating that clearing a statement's bindings failed.
+ */
 @interface SL3ClearBindingsFailedException: SL3Exception
 {
 	SL3PreparedStatement *_statement;
 }
 
+/**
+ * @brief The statement whose bindings could not be cleared.
+ */
 @property (readonly, nonatomic) SL3PreparedStatement *statement;
 
 + (instancetype)exceptionWithConnection: (nullable SL3Connection *)connection
 			      errorCode: (int)errorCode OF_UNAVAILABLE;
+
+/**
+ * @brief Creates a new clear bindings failed exception.
+ *
+ * @param statement The statement whose bindings could not be cleared
+ * @param errorCode The SQLite3 error code
+ * @return A new, autoreleased clear bindings failed exception
+ */
 + (instancetype)exceptionWithStatement: (SL3PreparedStatement *)statement
 			     errorCode: (int)errorCode;
+
 - (instancetype)initWithConnection: (nullable SL3Connection *)connection
 			 errorCode: (int)errorCode OF_UNAVAILABLE;
+
+/**
+ * @brief Initializes an already allocated clear bindings failed exception.
+ *
+ * @param statement The statement whose bindings could not be cleared
+ * @param errorCode The SQLite3 error code
+ * @return An initialized clear bindings failed exception
+ */
 - (instancetype)initWithStatement: (SL3PreparedStatement *)statement
 			errorCode: (int)errorCode OF_DESIGNATED_INITIALIZER;
 @end

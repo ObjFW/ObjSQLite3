@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Jonathan Schleifer <js@nil.im>
+ * Copyright (c) 2020, 2024 Jonathan Schleifer <js@nil.im>
  *
  * https://fl.nil.im/objsqlite3
  *
@@ -20,22 +20,54 @@
 
 OF_ASSUME_NONNULL_BEGIN
 
+/**
+ * @class SL3OpenFailedException SL3OpenFailedException.h
+ *	  ObjSQLite3/ObjSQLite3.h
+ *
+ * @brief An exception indicating that a database could not be opened.
+ */
 @interface SL3OpenFailedException: SL3Exception
 {
 	OFString *_path;
 	int _flags;
 }
 
+/**
+ * @brief The path of the database that could not be opened.
+ */
 @property (readonly, nonatomic) OFString *path;
+
+/**
+ * @brief The flags with which the database could not be opened.
+ */
 @property (readonly, nonatomic) int flags;
 
 + (instancetype)exceptionWithConnection: (nullable SL3Connection *)connection
 			      errorCode: (int)errorCode OF_UNAVAILABLE;
+
+/**
+ * @brief Creates a new open failed exception.
+ *
+ * @param path The path of the database that could not be opened
+ * @param flags The flags with which the database could not be opened
+ * @param errorCode The SQLite3 error code
+ * @return A new, autoreleased open failed exception
+ */
 + (instancetype)exceptionWithPath: (OFString *)path
 			    flags: (int)flags
 			errorCode: (int)errorCode;
+
 - (instancetype)initWithConnection: (nullable SL3Connection *)connection
 			 errorCode: (int)errorCode OF_UNAVAILABLE;
+
+/**
+ * @brief Initializes an already allocated open failed exception.
+ *
+ * @param path The path of the database that could not be opened
+ * @param flags The flags with which the database could not be opened
+ * @param errorCode The SQLite3 error code
+ * @return An initialized open failed exception
+ */
 - (instancetype)initWithPath: (OFString *)path
 		       flags: (int)flags
 		   errorCode: (int)errorCode OF_DESIGNATED_INITIALIZER;

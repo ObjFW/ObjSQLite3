@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020, 2021, 2023 Jonathan Schleifer <js@nil.im>
+ * Copyright (c) 2020, 2021, 2023, 2024 Jonathan Schleifer <js@nil.im>
  *
  * https://fl.nil.im/objsqlite3
  *
@@ -87,13 +87,13 @@ OF_APPLICATION_DELEGATE(Tests)
 			OFEnsure(0);
 		}
 
-		OFEnsure([[stmt objectForColumn: 0] isEqual: a]);
-		OFEnsure([[stmt objectForColumn: 1] isEqual: b]);
-		OFEnsure([[stmt objectForColumn: 2] isEqual: c]);
+		OFEnsure([[stmt objectForCurrentRowAtColumn: 0] isEqual: a]);
+		OFEnsure([[stmt objectForCurrentRowAtColumn: 1] isEqual: b]);
+		OFEnsure([[stmt objectForCurrentRowAtColumn: 2] isEqual: c]);
 
-		OFEnsure([[stmt rowArray] isEqual: ([OFArray arrayWithObjects:
-		    a, b, c, nil])]);
-		OFEnsure([[stmt rowDictionary] isEqual:
+		OFEnsure([[stmt currentRowArray] isEqual:
+		    ([OFArray arrayWithObjects: a, b, c, nil])]);
+		OFEnsure([[stmt currentRowDictionary] isEqual:
 		    ([OFDictionary dictionaryWithKeysAndObjects:
 		    @"a", a, @"b", b, @"c", c, nil])]);
 	}
