@@ -28,14 +28,15 @@ OF_APPLICATION_DELEGATE(Tests)
 @implementation Tests
 - (void)applicationDidFinishLaunching: (OFNotification *)notification
 {
+	OFIRI *IRI = [OFIRI fileIRIWithPath: @"tests.db"];
 	OFFileManager *fileManager = [OFFileManager defaultManager];
 	SL3Connection *conn;
 	SL3PreparedStatement *stmt;
 
-	if ([fileManager fileExistsAtPath: @"tests.db"])
-	    [fileManager removeItemAtPath: @"tests.db"];
+	if ([fileManager fileExistsAtIRI: IRI])
+		[fileManager removeItemAtIRI: IRI];
 
-	conn = [SL3Connection connectionWithPath: @"tests.db"];
+	conn = [SL3Connection connectionWithIRI: IRI];
 
 	[conn executeStatement: @"CREATE TABLE test (a INT, b TEXT, c BLOB)"];
 

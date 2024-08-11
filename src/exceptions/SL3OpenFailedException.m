@@ -19,7 +19,7 @@
 #import "SL3OpenFailedException.h"
 
 @implementation SL3OpenFailedException
-@synthesize path = _path, flags = _flags;
+@synthesize IRI = _IRI, flags = _flags;
 
 + (instancetype)exceptionWithConnection: (SL3Connection *)connection
 			      errorCode: (int)errorCode
@@ -27,13 +27,13 @@
 	OF_UNRECOGNIZED_SELECTOR
 }
 
-+ (instancetype)exceptionWithPath: (OFString *)path
-			    flags: (int)flags
-			errorCode: (int)errorCode
++ (instancetype)exceptionWithIRI: (OFIRI *)IRI
+			   flags: (int)flags
+		       errorCode: (int)errorCode
 {
-	return [[[self alloc] initWithPath: path
-				     flags: flags
-				 errorCode: errorCode] autorelease];
+	return [[[self alloc] initWithIRI: IRI
+				    flags: flags
+				errorCode: errorCode] autorelease];
 }
 
 - (instancetype)initWithConnection: (SL3Connection *)connection
@@ -42,15 +42,15 @@
 	OF_INVALID_INIT_METHOD
 }
 
-- (instancetype)initWithPath: (OFString *)path
-		       flags: (int)flags
-		   errorCode: (int)errorCode
+- (instancetype)initWithIRI: (OFIRI *)IRI
+		      flags: (int)flags
+		  errorCode: (int)errorCode
 {
 	self = [super initWithConnection: nil
 			       errorCode: errorCode];
 
 	@try {
-		_path = [path copy];
+		_IRI = [IRI copy];
 		_flags = flags;
 	} @catch (id e) {
 		[self release];
@@ -62,7 +62,7 @@
 
 - (void)dealloc
 {
-	[_path release];
+	[_IRI release];
 
 	[super dealloc];
 }

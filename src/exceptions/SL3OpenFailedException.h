@@ -28,14 +28,14 @@ OF_ASSUME_NONNULL_BEGIN
  */
 @interface SL3OpenFailedException: SL3Exception
 {
-	OFString *_path;
+	OFIRI *_IRI;
 	int _flags;
 }
 
 /**
- * @brief The path of the database that could not be opened.
+ * @brief The IRI of the database that could not be opened.
  */
-@property (readonly, nonatomic) OFString *path;
+@property (readonly, nonatomic) OFIRI *IRI;
 
 /**
  * @brief The flags with which the database could not be opened.
@@ -48,14 +48,14 @@ OF_ASSUME_NONNULL_BEGIN
 /**
  * @brief Creates a new open failed exception.
  *
- * @param path The path of the database that could not be opened
+ * @param IRI The IRI of the database that could not be opened
  * @param flags The flags with which the database could not be opened
  * @param errorCode The SQLite3 error code
  * @return A new, autoreleased open failed exception
  */
-+ (instancetype)exceptionWithPath: (OFString *)path
-			    flags: (int)flags
-			errorCode: (int)errorCode;
++ (instancetype)exceptionWithIRI: (OFIRI *)IFI
+			   flags: (int)flags
+		       errorCode: (int)errorCode;
 
 - (instancetype)initWithConnection: (nullable SL3Connection *)connection
 			 errorCode: (int)errorCode OF_UNAVAILABLE;
@@ -63,14 +63,14 @@ OF_ASSUME_NONNULL_BEGIN
 /**
  * @brief Initializes an already allocated open failed exception.
  *
- * @param path The path of the database that could not be opened
+ * @param IRI The IRI of the database that could not be opened
  * @param flags The flags with which the database could not be opened
  * @param errorCode The SQLite3 error code
  * @return An initialized open failed exception
  */
-- (instancetype)initWithPath: (OFString *)path
-		       flags: (int)flags
-		   errorCode: (int)errorCode OF_DESIGNATED_INITIALIZER;
+- (instancetype)initWithIRI: (OFIRI *)IRI
+		      flags: (int)flags
+		  errorCode: (int)errorCode OF_DESIGNATED_INITIALIZER;
 @end
 
 OF_ASSUME_NONNULL_END

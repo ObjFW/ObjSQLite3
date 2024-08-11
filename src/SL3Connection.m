@@ -24,37 +24,35 @@
 #import "SL3OpenFailedException.h"
 
 @implementation SL3Connection
-+ (instancetype)connectionWithPath: (OFString *)path
++ (instancetype)connectionWithIRI: (OFIRI *)IRI
 {
-	return [[[self alloc] initWithPath: path] autorelease];
+	return [[[self alloc] initWithIRI: IRI] autorelease];
 }
 
-+ (instancetype)connectionWithPath: (OFString *)path
-			     flags: (int)flags
++ (instancetype)connectionWithIRI: (OFIRI *)IRI flags: (int)flags
 {
-	return [[[self alloc] initWithPath: path
-				     flags: flags] autorelease];
+	return [[[self alloc] initWithIRI: IRI flags: flags] autorelease];
 }
 
-- (instancetype)initWithPath: (OFString *)path
+- (instancetype)initWithIRI: (OFIRI *)IRI
 {
-	return [self initWithPath: path
-			    flags: SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE];
+	return [self initWithIRI: IRI
+			   flags: SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE];
 }
 
-- (instancetype)initWithPath: (OFString *)path
-		       flags: (int)flags
+- (instancetype)initWithIRI: (OFIRI *)IRI flags: (int)flags
 {
 	self = [super init];
 
 	@try {
-		int code = sqlite3_open_v2(path.UTF8String, &_conn, flags,
+		int code = sqlite3_open_v2(
+		    IRI.fileSystemRepresentation.UTF8String, &_conn, flags,
 		    NULL);
 
 		if (code != SQLITE_OK)
-			@throw [SL3OpenFailedException exceptionWithPath: path
-								   flags: flags
-							       errorCode: code];
+			@throw [SL3OpenFailedException exceptionWithIRI: IRI
+								  flags: flags
+							      errorCode: code];
 	} @catch (id e) {
 		[self release];
 		@throw e;

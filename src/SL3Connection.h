@@ -38,46 +38,45 @@ OF_ASSUME_NONNULL_BEGIN
 }
 
 /**
- * @brief Creates a new connection to the database at the specified path.
+ * @brief Creates a new connection to the database at the specified IRI.
  *
- * @param path The path to the database
+ * @param IRI The IRI to the database
  * @return A new database connection
  * @throw SL3OpenFailedException The database could not be opened
  */
-+ (instancetype)connectionWithPath: (OFString *)path;
++ (instancetype)connectionWithIRI: (OFIRI *)IRI;
 
 /**
- * @brief Creates a new connection to the database at the specified path.
+ * @brief Creates a new connection to the database at the specified IRI.
  *
- * @param path The path to the database
+ * @param IRI The IRI to the database
  * @param flags The flags to open the database with
  * @return A new database connection
  * @throw SL3OpenFailedException The database could not be opened
  */
-+ (instancetype)connectionWithPath: (OFString *)path
-			     flags: (int)flags;
++ (instancetype)connectionWithIRI: (OFIRI *)IRI flags: (int)flags;
 
 /**
  * @brief Initializes an already allocated connection to connect to the
- *	  database at the specified path.
+ *	  database at the specified IRI.
  *
- * @param path The path to the database
+ * @param IRI The IRI to the database
  * @return An initialized connection to the specified database
  * @throw SL3OpenFailedException The database could not be opened
  */
-- (instancetype)initWithPath: (OFString *)path;
+- (instancetype)initWithIRI: (OFIRI *)IRI;
 
 /**
  * @brief Initializes an already allocated connection to connect to the
- *	  database at the specified path.
+ *	  database at the specified IRI.
  *
- * @param path The path to the database
+ * @param IRI The IRI to the database
  * @param flags The flags to open the database with
  * @return An initialized connection to the specified database
  * @throw SL3OpenFailedException The database could not be opened
  */
-- (instancetype)initWithPath: (OFString *)path
-		       flags: (int)flags OF_DESIGNATED_INITIALIZER;
+- (instancetype)initWithIRI: (OFIRI *)IRI
+		      flags: (int)flags OF_DESIGNATED_INITIALIZER;
 
 /**
  * @brief Prepares the specified SQL statement for the connection and returns
