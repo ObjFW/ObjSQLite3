@@ -12,7 +12,7 @@ objsqlite3 = library('objsqlite3',
   include_directories: incdir,
   objc_args: ['-DSL3_PUBLIC_IVARS'],
   dependencies: [objfw_dep, sqlite3_dep],
-  soversion: '0.0',
+  soversion: '1.0.0',
   install: true)
 
 headers = ['ObjSQLite3.h']

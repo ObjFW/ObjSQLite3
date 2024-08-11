@@ -1,5 +1,5 @@
 project('ObjSQLite3', 'objc',
-  version: '0.1',
+  version: '1.0',
   meson_version: '>= 1.5.0',
   default_options: {
     'warning_level': '3',
