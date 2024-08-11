@@ -18,3 +18,11 @@
 
 #import "SL3Connection.h"
 #import "SL3PreparedStatement.h"
+
+#import "SL3Exception.h"
+#import "SL3BindObjectFailedException.h"
+#import "SL3ClearBindingsFailedException.h"
+#import "SL3ExecuteStatementFailedException.h"
+#import "SL3OpenFailedException.h"
+#import "SL3PrepareStatementFailedException.h"
+#import "SL3ResetStatementFailedException.h"
