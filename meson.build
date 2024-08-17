@@ -31,6 +31,7 @@ configure_file(
   input: 'ObjSQLite3.oc.in',
   output: 'ObjSQLite3.oc',
   configuration: {
+    'includedir': get_option('prefix') / get_option('includedir'),
     'libdir': get_option('prefix') / get_option('libdir'),
     'SQLITE3_CPPFLAGS': sqlite3_cflags,
     'SQLITE3_LIBS': sqlite3_libs,
