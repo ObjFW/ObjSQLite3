@@ -29,8 +29,9 @@
 + (instancetype)exceptionWithConnection: (SL3Connection *)connection
 			      errorCode: (int)errorCode
 {
-	return [[[self alloc] initWithConnection: connection
-				       errorCode: errorCode] autorelease];
+	return objc_autoreleaseReturnValue(
+	    [[self alloc] initWithConnection: connection
+				   errorCode: errorCode]);
 }
 
 - (instancetype)init
@@ -43,7 +44,7 @@
 {
 	self = [super init];
 
-	_connection = [connection retain];
+	_connection = objc_retain(connection);
 	_errorCode = errorCode;
 
 	return self;
@@ -51,7 +52,7 @@
 
 - (void)dealloc
 {
-	[_connection release];
+	objc_release(_connection);
 
 	[super dealloc];
 }

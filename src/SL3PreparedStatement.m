@@ -25,12 +25,6 @@
 #import "SL3PrepareStatementFailedException.h"
 #import "SL3ResetStatementFailedException.h"
 
-static void
-releaseObject(void *object)
-{
-	[(id)object release];
-}
-
 @implementation SL3PreparedStatement
 - (instancetype)sl3_initWithConnection: (SL3Connection *)connection
 			  SQLStatement: (OFConstantString *)SQLStatement
@@ -48,9 +42,9 @@ releaseObject(void *object)
 				       SQLStatement: SQLStatement
 					  errorCode: code];
 
-		_connection = [connection retain];
+		_connection = objc_retain(connection);
 	} @catch (id e) {
-		[self release];
+		objc_release(self);
 		@throw e;
 	}
 
@@ -60,7 +54,7 @@ releaseObject(void *object)
 - (void)dealloc
 {
 	sqlite3_finalize(_stmt);
-	[_connection release];
+	objc_release(_connection);
 
 	[super dealloc];
 }
@@ -87,13 +81,15 @@ bindObject(SL3PreparedStatement *statement, int column, id object)
 		OFString *copy = [object copy];
 
 		code = sqlite3_bind_text64(statement->_stmt, column,
-		    copy.UTF8String, copy.UTF8StringLength, releaseObject,
+		    copy.UTF8String, copy.UTF8StringLength,
+		    (void (*)(void *))(void (*)(void))objc_release,
 		    SQLITE_UTF8);
 	} else if ([object isKindOfClass: [OFData class]]) {
 		OFData *copy = [object copy];
 
 		code = sqlite3_bind_blob64(statement->_stmt, column, copy.items,
-		    copy.count * copy.itemSize, releaseObject);
+		    copy.count * copy.itemSize,
+		    (void (*)(void *))(void (*)(void))objc_release);
 	} else if ([object isEqual: [OFNull null]])
 		code = sqlite3_bind_null(statement->_stmt, column);
 	else

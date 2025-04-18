@@ -31,9 +31,10 @@
 			   flags: (int)flags
 		       errorCode: (int)errorCode
 {
-	return [[[self alloc] initWithIRI: IRI
-				    flags: flags
-				errorCode: errorCode] autorelease];
+	return objc_autoreleaseReturnValue(
+	    [[self alloc] initWithIRI: IRI
+				flags: flags
+			    errorCode: errorCode]);
 }
 
 - (instancetype)initWithConnection: (SL3Connection *)connection
@@ -53,7 +54,7 @@
 		_IRI = [IRI copy];
 		_flags = flags;
 	} @catch (id e) {
-		[self release];
+		objc_release(self);
 		@throw e;
 	}
 
@@ -62,7 +63,7 @@
 
 - (void)dealloc
 {
-	[_IRI release];
+	objc_release(_IRI);
 
 	[super dealloc];
 }

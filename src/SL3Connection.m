@@ -26,12 +26,13 @@
 @implementation SL3Connection
 + (instancetype)connectionWithIRI: (OFIRI *)IRI
 {
-	return [[[self alloc] initWithIRI: IRI] autorelease];
+	return objc_autoreleaseReturnValue([[self alloc] initWithIRI: IRI]);
 }
 
 + (instancetype)connectionWithIRI: (OFIRI *)IRI flags: (int)flags
 {
-	return [[[self alloc] initWithIRI: IRI flags: flags] autorelease];
+	return objc_autoreleaseReturnValue([[self alloc] initWithIRI: IRI
+							       flags: flags]);
 }
 
 - (instancetype)initWithIRI: (OFIRI *)IRI
@@ -54,7 +55,7 @@
 								  flags: flags
 							      errorCode: code];
 	} @catch (id e) {
-		[self release];
+		objc_release(self);
 		@throw e;
 	}
 
@@ -70,9 +71,9 @@
 
 - (SL3PreparedStatement *)prepareStatement: (OFConstantString *)SQLStatement
 {
-	return [[[SL3PreparedStatement alloc]
+	return objc_autoreleaseReturnValue([[SL3PreparedStatement alloc]
 	    sl3_initWithConnection: self
-		      SQLStatement: SQLStatement] autorelease];
+		      SQLStatement: SQLStatement]);
 }
 
 - (void)executeStatement: (OFConstantString *)SQLStatement

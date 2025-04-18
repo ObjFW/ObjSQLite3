@@ -24,8 +24,9 @@
 + (instancetype)exceptionWithStatement: (SL3PreparedStatement *)statement
 			     errorCode: (int)errorCode
 {
-	return [[[self alloc] initWithStatement: statement
-				      errorCode: errorCode] autorelease];
+	return objc_autoreleaseReturnValue(
+	    [[self alloc] initWithStatement: statement
+				  errorCode: errorCode]);
 }
 
 - (instancetype)initWithStatement: (SL3PreparedStatement *)statement
@@ -35,9 +36,9 @@
 			       errorCode: errorCode];
 
 	@try {
-		_statement = [statement retain];
+		_statement = objc_retain(statement);
 	} @catch (id e) {
-		[self release];
+		objc_release(self);
 		@throw e;
 	}
 
@@ -46,7 +47,7 @@
 
 - (void)dealloc
 {
-	[_statement release];
+	objc_release(_statement);
 
 	[super dealloc];
 }

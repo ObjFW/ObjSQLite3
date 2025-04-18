@@ -31,9 +31,10 @@
 			   SQLStatement: (OFConstantString *)SQLStatement
 			      errorCode: (int)errorCode
 {
-	return [[[self alloc] initWithConnection: connection
-				    SQLStatement: SQLStatement
-				       errorCode: errorCode] autorelease];
+	return objc_autoreleaseReturnValue(
+	    [[self alloc] initWithConnection: connection
+				SQLStatement: SQLStatement
+				   errorCode: errorCode]);
 }
 
 - (instancetype)initWithConnection: (SL3Connection *)connection
@@ -50,9 +51,9 @@
 			       errorCode: errorCode];
 
 	@try {
-		_SQLStatement = [SQLStatement retain];
+		_SQLStatement = objc_retain(SQLStatement);
 	} @catch (id e) {
-		[self release];
+		objc_release(self);
 		@throw e;
 	}
 
@@ -61,7 +62,7 @@
 
 - (void)dealloc
 {
-	[_SQLStatement release];
+	objc_release(_SQLStatement);
 
 	[super dealloc];
 }

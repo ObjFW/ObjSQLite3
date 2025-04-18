@@ -32,10 +32,11 @@
 			  statement: (SL3PreparedStatement *)statement
 			  errorCode: (int)errorCode
 {
-	return [[[self alloc] initWithObject: object
-				      column: column
-				   statement: statement
-				   errorCode: errorCode] autorelease];
+	return objc_autoreleaseReturnValue(
+	    [[self alloc] initWithObject: object
+				  column: column
+			       statement: statement
+			       errorCode: errorCode]);
 }
 
 - (instancetype)initWithConnection: (SL3Connection *)connection
@@ -53,10 +54,10 @@
 			       errorCode: errorCode];
 
 	@try {
-		_object = [object retain];
-		_statement = [statement retain];
+		_object = objc_retain(object);
+		_statement = objc_retain(statement);
 	} @catch (id e) {
-		[self release];
+		objc_release(self);
 		@throw e;
 	}
 
@@ -65,8 +66,8 @@
 
 - (void)dealloc
 {
-	[_object release];
-	[_statement release];
+	objc_release(_object);
+	objc_release(_statement);
 
 	[super dealloc];
 }
