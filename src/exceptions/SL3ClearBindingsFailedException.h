@@ -1,7 +1,7 @@
 /*
- * Copyright (c) 2020, 2024 Jonathan Schleifer <js@nil.im>
+ * Copyright (c) 2020, 2024, 2025 Jonathan Schleifer <js@nil.im>
  *
- * https://fl.nil.im/objsqlite3
+ * https://git.nil.im/ObjFW/ObjSQLite3
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
