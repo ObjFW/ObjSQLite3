@@ -71,7 +71,7 @@ AC_CHECK_LIB(sqlite3, main, [
 	LIBS="$LIBS -lsqlite3"
 	FRAMEWORK_LIBS="$FRAMEWORK_LIBS -lsqlite3"
 ], [
-	AC_MSG_ERROR(You need SQLite3 and installed!)
+	AC_MSG_ERROR(You need SQLite3 installed!)
 ])
 
 AS_IF([test x"$GOBJC" = x"yes"], [
