@@ -53,7 +53,7 @@ OF_ASSUME_NONNULL_BEGIN
  * @param errorCode The SQLite3 error code
  * @return A new, autoreleased open failed exception
  */
-+ (instancetype)exceptionWithIRI: (OFIRI *)IFI
++ (instancetype)exceptionWithIRI: (OFIRI *)IRI
 			   flags: (int)flags
 		       errorCode: (int)errorCode;
 

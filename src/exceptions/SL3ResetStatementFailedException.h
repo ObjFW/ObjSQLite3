@@ -26,7 +26,7 @@ OF_ASSUME_NONNULL_BEGIN
  * @class SL3ResetStatementFailedException SL3ResetStatementFailedException.h
  *	  ObjSQLite3/ObjSQLite3.h
  *
- * @param An exception indicating that resetting a statement failed.
+ * @brief An exception indicating that resetting a statement failed.
  */
 @interface SL3ResetStatementFailedException: SL3Exception
 {
