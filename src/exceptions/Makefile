@@ -15,5 +15,4 @@ INCLUDES = ${SRCS:.m=.h}
 
 include ../../buildsys.mk
 
-CPPFLAGS += -I. -I.. -DSL3_PUBLIC_IVARS
-
+CPPFLAGS += -I. -I.. -I../.. -DSL3_PUBLIC_IVARS

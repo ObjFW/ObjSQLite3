@@ -16,6 +16,8 @@
  * PERFORMANCE OF THIS SOFTWARE.
  */
 
+#include "config.h"
+
 #import "SL3Connection.h"
 #import "SL3PreparedStatement.h"
 #import "SL3PreparedStatement+Private.h"

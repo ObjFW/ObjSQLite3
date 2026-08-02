@@ -16,6 +16,8 @@
  * PERFORMANCE OF THIS SOFTWARE.
  */
 
+#include "config.h"
+
 #import "SL3BindObjectFailedException.h"
 
 @implementation SL3BindObjectFailedException

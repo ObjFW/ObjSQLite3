@@ -10,3 +10,4 @@ fi
 
 aclocal -I build-aux/m4
 autoconf
+autoheader

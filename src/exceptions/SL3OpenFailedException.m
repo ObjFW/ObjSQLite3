@@ -16,6 +16,8 @@
  * PERFORMANCE OF THIS SOFTWARE.
  */
 
+#include "config.h"
+
 #import "SL3OpenFailedException.h"
 
 @implementation SL3OpenFailedException

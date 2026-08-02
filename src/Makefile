@@ -18,5 +18,5 @@ LIB_OBJS_EXTRA = ${EXCEPTIONS_EXCEPTIONS_LIB_A}
 
 include ../buildsys.mk
 
-CPPFLAGS += -I. -Iexceptions -DSL3_PUBLIC_IVARS
+CPPFLAGS += -I. -Iexceptions -I.. -DSL3_PUBLIC_IVARS
 LD = ${OBJC}

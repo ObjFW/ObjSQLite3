@@ -16,6 +16,8 @@
  * PERFORMANCE OF THIS SOFTWARE.
  */
 
+#include "config.h"
+
 #import "SL3ClearBindingsFailedException.h"
 
 @implementation SL3ClearBindingsFailedException

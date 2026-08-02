@@ -16,6 +16,8 @@
  * PERFORMANCE OF THIS SOFTWARE.
  */
 
+#include "config.h"
+
 #import "SL3PreparedStatement.h"
 #import "SL3PreparedStatement+Private.h"
 
@@ -80,16 +82,34 @@ bindObject(SL3PreparedStatement *statement, int column, id object)
 	} else if ([object isKindOfClass: [OFString class]]) {
 		OFString *copy = [object copy];
 
+#ifdef HAVE_SQLITE3_BIND_TEXT64
 		code = sqlite3_bind_text64(statement->_stmt, column,
 		    copy.UTF8String, copy.UTF8StringLength,
 		    (void (*)(void *))(void (*)(void))objc_release,
 		    SQLITE_UTF8);
+#else
+		if (copy.UTF8StringLength > INT_MAX)
+			@throw [OFOutOfRangeException exception];
+
+		code = sqlite3_bind_text(statement->_stmt, column,
+		    copy.UTF8String, (int)copy.UTF8StringLength,
+		    (void (*)(void *))(void (*)(void))objc_release);
+#endif
 	} else if ([object isKindOfClass: [OFData class]]) {
 		OFData *copy = [object copy];
 
+#ifdef HAVE_SQLITE3_BIND_BLOB64
 		code = sqlite3_bind_blob64(statement->_stmt, column, copy.items,
 		    copy.count * copy.itemSize,
 		    (void (*)(void *))(void (*)(void))objc_release);
+#else
+		if (copy.count * copy.itemSize > INT_MAX)
+			@throw [OFOutOfRangeException exception];
+
+		code = sqlite3_bind_blob(statement->_stmt, column, copy.items,
+		    copy.count * copy.itemSize,
+		    (void (*)(void *))(void (*)(void))objc_release);
+#endif
 	} else if ([object isEqual: [OFNull null]])
 		code = sqlite3_bind_null(statement->_stmt, column);
 	else

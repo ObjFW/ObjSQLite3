@@ -11,6 +11,14 @@ done
 
 BUILDSYS_INIT
 
+AC_CANONICAL_HOST
+
+case "$host" in
+*-morphos*)
+	enable_shared="no"
+	;;
+esac
+
 AC_CHECK_TOOL(OBJFW_CONFIG, objfw-config)
 AS_IF([test x"$OBJFW_CONFIG" = x""], [
 	AC_MSG_ERROR(You need ObjFW and objfw-config installed!)
@@ -30,6 +38,13 @@ OBJCFLAGS="$OBJCFLAGS $($OBJFW_CONFIG --objcflags)"
 LDFLAGS="$LDFLAGS $($OBJFW_CONFIG --ldflags)"
 FRAMEWORK_LIBS="$($OBJFW_CONFIG --framework-libs) $LIBS"
 LIBS="$($OBJFW_CONFIG --libs --rpath) $LIBS"
+
+for std in gnu99 c99; do
+	AX_CHECK_COMPILER_FLAGS(-std=$std, [
+		OBJCFLAGS="$OBJCFLAGS -std=$std"
+		break
+	])
+done
 
 AX_CHECK_COMPILER_FLAGS(-Wdocumentation,
 	[OBJCFLAGS="$OBJCFLAGS -Wdocumentation"])
@@ -73,6 +88,7 @@ AC_CHECK_LIB(sqlite3, main, [
 ], [
 	AC_MSG_ERROR(You need SQLite3 installed!)
 ])
+AC_CHECK_FUNCS(sqlite3_bind_text64 sqlite3_bind_blob64)
 
 AS_IF([test x"$GOBJC" = x"yes"], [
 	OBJCFLAGS="$OBJCFLAGS -Wall -Werror -Wwrite-strings -Wpointer-arith"
@@ -147,4 +163,5 @@ AC_SUBST(SQLITE3_CPPFLAGS)
 AC_SUBST(SQLITE3_LIBS)
 
 AC_CONFIG_FILES([buildsys.mk extra.mk ObjSQLite3.oc])
+AC_CONFIG_HEADERS(config.h)
 AC_OUTPUT

@@ -38,6 +38,6 @@ run:
 
 ${PROG_NOINST}: ${LIBOBJSQLITE3_DEP}
 
-CPPFLAGS += -I../src
+CPPFLAGS += -I../src -I..
 LIBS := -L../src -lobjsqlite3 ${LIBS}
 LD = ${OBJC}

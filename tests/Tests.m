@@ -16,6 +16,8 @@
  * PERFORMANCE OF THIS SOFTWARE.
  */
 
+#include "config.h"
+
 #import <ObjFW/ObjFW.h>
 
 #import "SL3Connection.h"
