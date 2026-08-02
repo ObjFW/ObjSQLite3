@@ -1,4 +1,4 @@
-AC_INIT(ObjSQLite3, 1.1.1, js@nil.im)
+AC_INIT(ObjSQLite3, 1.1.2, js@nil.im)
 AC_CONFIG_SRCDIR(src)
 AC_CONFIG_AUX_DIR(build-aux)
 AC_CONFIG_MACRO_DIR(build-aux/m4)
