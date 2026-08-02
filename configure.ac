@@ -3,6 +3,10 @@ AC_CONFIG_SRCDIR(src)
 AC_CONFIG_AUX_DIR(build-aux)
 AC_CONFIG_MACRO_DIR(build-aux/m4)
 
+dnl This may only be set to 1.2 once 1.2 is released
+AC_SUBST(BUNDLE_VERSION, 1.1.2)
+AC_SUBST(BUNDLE_SHORT_VERSION, 1.1)
+
 for i in configure.ac build-aux/m4/*; do
 	AS_IF([test $i -nt configure], [
 		AC_MSG_ERROR([$i is newer than configure! Run ./autogen.sh!])
@@ -162,6 +166,6 @@ AC_SUBST(CPPFLAGS)
 AC_SUBST(SQLITE3_CPPFLAGS)
 AC_SUBST(SQLITE3_LIBS)
 
-AC_CONFIG_FILES([buildsys.mk extra.mk ObjSQLite3.oc])
+AC_CONFIG_FILES([buildsys.mk extra.mk ObjSQLite3.oc src/Info.plist])
 AC_CONFIG_HEADERS(config.h)
 AC_OUTPUT

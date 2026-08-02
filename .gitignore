@@ -25,5 +25,6 @@
 /configure
 /docs
 /extra.mk
+/src/Info.plist
 /tests/tests
 /tests/tests.db
