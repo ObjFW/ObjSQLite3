@@ -1,10 +1,10 @@
-AC_INIT(ObjSQLite3, 1.1.2, js@nil.im)
+AC_INIT(ObjSQLite3, 1.1.3, js@nil.im)
 AC_CONFIG_SRCDIR(src)
 AC_CONFIG_AUX_DIR(build-aux)
 AC_CONFIG_MACRO_DIR(build-aux/m4)
 
 dnl This may only be set to 1.2 once 1.2 is released
-AC_SUBST(BUNDLE_VERSION, 1.1.2)
+AC_SUBST(BUNDLE_VERSION, 1.1.3)
 AC_SUBST(BUNDLE_SHORT_VERSION, 1.1)
 
 for i in configure.ac build-aux/m4/*; do
