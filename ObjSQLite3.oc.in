@@ -1,5 +1,14 @@
 package_format 1
+
+old_prefix="${prefix}"
+old_exec_prefix="${old_exec_prefix}"
+prefix="@prefix@"
+exec_prefix="@exec_prefix@"
+
 CPPFLAGS="$CPPFLAGS -I@includedir@ @SQLITE3_CPPFLAGS@"
 LIBS="-L@libdir@ -lobjsqlite3 @SQLITE3_LIBS@ $LIBS"
 FRAMEWORK_LIBS="-L@libdir@ -lobjsqlite3 @SQLITE3_LIBS@ $FRAMEWORK_LIBS"
 STATIC_LIBS="@libdir@/libobjsqlite3.a @SQLITE3_LIBS@ $STATIC_LIBS"
+
+prefix="${old_prefix}"
+exec_prefix="${old_exec_prefix}"
