@@ -80,36 +80,49 @@ bindObject(SL3PreparedStatement *statement, int column, id object)
 			break;
 		}
 	} else if ([object isKindOfClass: [OFString class]]) {
-		OFString *copy = [object copy];
+		size_t length = [object UTF8StringLength];
+		char *copy = OFAllocMemory(length, 1);
+
+		@try {
+			memcpy(copy, [object insecureCStringWithEncoding:
+			    OFStringEncodingUTF8], length);
 
 #ifdef HAVE_SQLITE3_BIND_TEXT64
-		code = sqlite3_bind_text64(statement->_stmt, column,
-		    copy.UTF8String, copy.UTF8StringLength,
-		    (void (*)(void *))(void (*)(void))objc_release,
-		    SQLITE_UTF8);
+			code = sqlite3_bind_text64(statement->_stmt, column,
+			    copy, length, OFFreeMemory, SQLITE_UTF8);
 #else
-		if (copy.UTF8StringLength > INT_MAX)
-			@throw [OFOutOfRangeException exception];
+			if (length > INT_MAX)
+				@throw [OFOutOfRangeException exception];
 
-		code = sqlite3_bind_text(statement->_stmt, column,
-		    copy.UTF8String, (int)copy.UTF8StringLength,
-		    (void (*)(void *))(void (*)(void))objc_release);
+			code = sqlite3_bind_text(statement->_stmt, column,
+			    copy, (int)length, OFFreeMemory);
 #endif
+		} @catch (id e) {
+			OFFreeMemory(copy);
+			@throw e;
+		}
 	} else if ([object isKindOfClass: [OFData class]]) {
-		OFData *copy = [object copy];
+		void *copy = OFAllocMemory([object count], [object itemSize]);
+
+		@try {
+			memcpy(copy, [object items],
+			    [object count] * [object itemSize]);
 
 #ifdef HAVE_SQLITE3_BIND_BLOB64
-		code = sqlite3_bind_blob64(statement->_stmt, column, copy.items,
-		    copy.count * copy.itemSize,
-		    (void (*)(void *))(void (*)(void))objc_release);
+			code = sqlite3_bind_blob64(statement->_stmt, column,
+			    copy, [object count] * [object itemSize],
+			    OFFreeMemory);
 #else
-		if (copy.count * copy.itemSize > INT_MAX)
-			@throw [OFOutOfRangeException exception];
+			if ([object count] * [object itemSize] > INT_MAX)
+				@throw [OFOutOfRangeException exception];
 
-		code = sqlite3_bind_blob(statement->_stmt, column, copy.items,
-		    copy.count * copy.itemSize,
-		    (void (*)(void *))(void (*)(void))objc_release);
+			code = sqlite3_bind_blob(statement->_stmt, column, copy,
+			    [object count] * [object itemSize], OFFreeMemory);
 #endif
+		} @catch (id e) {
+			OFFreeMemory(copy);
+			@throw e;
+		}
 	} else if ([object isEqual: [OFNull null]])
 		code = sqlite3_bind_null(statement->_stmt, column);
 	else
